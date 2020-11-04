@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.DetailFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/poster_guide"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20"/>
+
+    <ImageView
+        android:id="@+id/content_background"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/guide"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/background_content_desc"
+        android:background="@drawable/rounded_rectangle_white"/>
+    
+    <ImageView
+        android:id="@+id/anime_poster"
+        android:layout_width="120dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toTopOf="@id/poster_guide"
+        app:layout_constraintStart_toStartOf="@id/content_background"
+        android:contentDescription="@string/image_poster_content_desc"
+        android:src="@color/colorPrimaryDark"/>
+    
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/favorite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        style="@style/CustomFloatingActionButton"
+        app:layout_constraintTop_toTopOf="@id/content_background"
+        app:layout_constraintBottom_toTopOf="@id/content_background"
+        app:layout_constraintEnd_toEndOf="@id/content_background"
+        android:contentDescription="@string/favorite_button_content_desc"
+        android:src="@drawable/ic_baseline_favorite_24"/>
+    
+    <TextView
+        android:id="@+id/anime_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/content_background"
+        app:layout_constraintStart_toEndOf="@id/anime_poster"
+        app:layout_constraintEnd_toEndOf="@id/content_background"
+        android:layout_marginTop="24dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textSize="24sp"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textStyle="bold"
+        tools:text="Jujutsu Kaisen" />
+
+    <ImageView
+        android:id="@+id/score_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@id/anime_poster"
+        app:layout_constraintTop_toBottomOf="@id/anime_title"
+        android:contentDescription="@string/star_icon_content_desc"
+        android:src="@drawable/ic_baseline_star_24"/>
+
+    <TextView
+        android:id="@+id/anime_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@id/score_icon"
+        app:layout_constraintTop_toTopOf="@id/score_icon"
+        app:layout_constraintBottom_toBottomOf="@id/score_icon"
+        tools:text="9.8"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/content_tab_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:tabMode="scrollable"
+        app:layout_constraintTop_toBottomOf="@id/anime_poster"
+        app:layout_constraintStart_toStartOf="@id/content_background"
+        app:layout_constraintEnd_toEndOf="@id/content_background">
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/synopsis_text"/>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/info_text"/>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/characters_text"/>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/reviews_text"/>
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/content_view_pager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/content_tab_layout"
+        app:layout_constraintStart_toStartOf="@id/content_background"
+        app:layout_constraintEnd_toEndOf="@id/content_background"
+        app:layout_constraintBottom_toBottomOf="@id/content_background"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

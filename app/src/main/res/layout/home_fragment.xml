@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/softBlack"
+    tools:context=".ui.HomeFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/current_season_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="22sp"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            tools:text="Fall 2020 Anime" />
+
+        <include
+            android:id="@+id/current_season_loading_layout"
+            tools:visibility="gone"
+            layout="@layout/list_loading_layout"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/current_season_rc_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/anime_list_layout"/>
+
+        <TextView
+            android:id="@+id/latest_episode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="22sp"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:text="@string/latest_updated_episode_text" />
+
+        <include
+            android:id="@+id/latest_episode_loading_layout"
+            tools:visibility="gone"
+            layout="@layout/list_loading_layout"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/latest_episode_rc_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/anime_list_layout"/>
+
+        <TextView
+            android:id="@+id/anime_suggestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="22sp"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:text="@string/my_anime_suggestions_text" />
+
+        <include
+            android:id="@+id/anime_suggestion_loading_layout"
+            tools:visibility="gone"
+            layout="@layout/list_loading_layout"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/anime_suggestion_rc_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/anime_list_layout"/>
+    </LinearLayout>
+
+</ScrollView>
