@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.dargoz.data.source.local.room.AnimeDao
 import com.dargoz.data.source.local.room.AnimeDatabase
+import com.dargoz.data.source.local.room.ReviewDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +26,7 @@ class DatabaseModule {
 
     @Provides
     fun provideAnimeDao(animeDatabase: AnimeDatabase): AnimeDao = animeDatabase.animeDao()
+
+    @Provides
+    fun provideReviewDao(animeDatabase: AnimeDatabase): ReviewDao = animeDatabase.reviewDao()
 }

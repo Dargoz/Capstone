@@ -2,14 +2,9 @@ package com.dargoz.data.utils
 
 import android.util.Log
 import com.dargoz.data.source.local.entity.AnimeEntity
-import com.dargoz.data.source.remote.responses.AnimeResponse
-import com.dargoz.data.source.remote.responses.CharacterResponse
-import com.dargoz.data.source.remote.responses.GenreResponse
-import com.dargoz.data.source.remote.responses.VoiceActorResponse
-import com.dargoz.domain.models.Anime
-import com.dargoz.domain.models.Characters
-import com.dargoz.domain.models.Genre
-import com.dargoz.domain.models.VoiceActor
+import com.dargoz.data.source.local.entity.ReviewEntity
+import com.dargoz.data.source.remote.responses.*
+import com.dargoz.domain.models.*
 
 object DataMapper {
 
@@ -48,9 +43,9 @@ object DataMapper {
 
     fun mapResponseToEntities(animeList: List<AnimeResponse>): List<AnimeEntity> {
         val animeEntities = ArrayList<AnimeEntity>()
-        Log.v("DRG","result : ${animeList[0].id}")
+        Log.v("DRG", "result : ${animeList[0].id}")
         animeList.map {
-            Log.v("DRG","result : ${it.id}")
+            Log.v("DRG", "result : ${it.id}")
             val animeEntity = AnimeEntity(
                 malId = it.id,
                 title = it.title,
@@ -202,5 +197,63 @@ object DataMapper {
 
     fun mapEntitiesToCharactersDomain(it: AnimeEntity): List<Characters>? {
         return it.characters
+    }
+
+    fun mapEntitiesToDomainReview(reviewEntities: List<ReviewEntity>): List<Review> {
+        val reviewList = ArrayList<Review>()
+        reviewEntities.map {
+            val review = Review(
+                id = it.malId,
+                malId = it.malId,
+                animeId = it.animeId,
+                url = it.url,
+                type = it.type,
+                helpfulCount = it.helpfulCount,
+                date = it.date,
+                reviewer = it.reviewer,
+                content = it.content,
+            )
+            reviewList.add(review)
+        }
+        return reviewList
+    }
+
+    fun mapReviewResponseToEntities(animeId: Long, data: List<ReviewResponse>): List<ReviewEntity> {
+        val reviewEntities = ArrayList<ReviewEntity>()
+        data.map {
+            val reviewEntity = ReviewEntity(
+                malId = it.malId,
+                animeId = animeId,
+                url = it.url,
+                type = it.type,
+                helpfulCount = it.helpfulCount,
+                date = it.date,
+                reviewer = mapReviewResponseToModel(it.reviewer),
+                content = it.content,
+            )
+            reviewEntities.add(reviewEntity)
+        }
+        return reviewEntities
+    }
+
+    private fun mapReviewResponseToModel(reviewer: ReviewerResponse): Reviewer {
+        return Reviewer(
+            url = reviewer.url,
+            imageUrl = reviewer.imageUrl,
+            username = reviewer.username,
+            episodeSeen = reviewer.episodeSeen,
+            scores = mapScoreResponseToModel(reviewer.scores)
+        )
+    }
+
+    private fun mapScoreResponseToModel(scores: ScoreResponse): Score {
+        return Score(
+            overall = scores.overall,
+            story = scores.story,
+            animation = scores.animation,
+            sound = scores.sound,
+            character = scores.character,
+            enjoyment = scores.enjoyment
+        )
     }
 }

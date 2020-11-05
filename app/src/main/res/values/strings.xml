@@ -10,8 +10,7 @@
     <string name="my_anime_suggestions_text">My Anime Suggestions</string>
     <string name="latest_updated_episode_text">Latest Updated Episode</string>
     <string name="favorite_button_content_desc">favorite button</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="alternative_titles_text">Alternative Titles</string>
     <string name="japanese_label_text">Japanese:</string>
     <string name="information_text">Information</string>
@@ -23,4 +22,8 @@
     <string name="rating_label_text">Rating:</string>
     <string name="character_image_content_desc">character image</string>
     <string name="voice_actor_image_content_desc">voice actor image</string>
+    <string name="reviewer_image_content_desc">reviewer image</string>
+    <string name="sample_reviewer_content">Here is my early review of RE: Zero, and if it lives up to it\'s previous season!  It certainly does! It really picks up where we left off, and continues as if it was more than a one season show, which is great to see from an adored show. You won\'t go wrong with picking up season two, as we\'re in for treat, and you\'ll be glad to pick it up and continue it\'s story!  The tone is what you would expect from this show, the art and the sound matching the themes of the show in general, being that they look great, but also match the read more</string>
+    <string name="helpful_string_format">%1$d people vote helpful</string>
+    <string name="overall_rating_string_format">Overall rating : %1$d</string>
 </resources>

@@ -5,7 +5,7 @@ import com.dargoz.data.source.remote.network.ApiResponse
 import com.dargoz.data.source.remote.network.ApiService
 import com.dargoz.data.source.remote.responses.AnimeResponse
 import com.dargoz.data.source.remote.responses.CharacterResponse
-import com.dargoz.data.source.remote.responses.ListCharacterResponse
+import com.dargoz.data.source.remote.responses.ReviewResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -66,4 +66,23 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    suspend fun getAnimeReviews(animeId: Long): Flow<ApiResponse<List<ReviewResponse>>> =
+        flow {
+            try {
+                val response = apiService.getAnimeReviews(animeId)
+                val data = response.reviews
+                Log.d("DRG","characters : ${data}")
+                if(data.isNotEmpty()) {
+                    emit(ApiResponse.Success(data))
+                } else {
+                    emit(ApiResponse.Empty)
+                }
+
+            } catch (e: Exception) {
+                emit(ApiResponse.Error(e.toString()))
+                Log.w("DRG","${this.javaClass.simpleName} :: ${e.message}")
+            }
+
+        }.flowOn(Dispatchers.IO)
 }

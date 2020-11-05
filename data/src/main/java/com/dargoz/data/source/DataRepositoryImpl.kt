@@ -6,10 +6,12 @@ import com.dargoz.data.source.remote.RemoteDataSource
 import com.dargoz.data.source.remote.network.ApiResponse
 import com.dargoz.data.source.remote.responses.AnimeResponse
 import com.dargoz.data.source.remote.responses.CharacterResponse
+import com.dargoz.data.source.remote.responses.ReviewResponse
 import com.dargoz.data.utils.DataMapper
 import com.dargoz.domain.Resource
 import com.dargoz.domain.models.Anime
 import com.dargoz.domain.models.Characters
+import com.dargoz.domain.models.Review
 import com.dargoz.domain.repositories.IDataRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -92,6 +94,28 @@ class DataRepositoryImpl @Inject constructor(
                                                 cache: List<Characters>?) {
                 localDataSource.updateAnimeCharactersByMalId(
                     animeId, DataMapper.mapResponseToModelChar(data))
+            }
+
+        }.asFlow()
+
+    override fun getAnimeReviews(animeId: Long): Flow<Resource<List<Review>>> =
+        object : NetworkBoundResource<List<Review>, List<ReviewResponse>>() {
+            override suspend fun createCall(): Flow<ApiResponse<List<ReviewResponse>>> {
+                return remoteDataSource.getAnimeReviews(animeId)
+            }
+
+            override suspend fun loadFromDB(): Flow<List<Review>> {
+                return localDataSource.getAnimeReviewsById(animeId)
+                    .map { DataMapper.mapEntitiesToDomainReview(it) }
+            }
+
+            override suspend fun shouldFetch(data: List<Review>?): Boolean =
+                data == null || data.isEmpty()
+
+
+            override suspend fun saveCallResult(data: List<ReviewResponse>, cache: List<Review>?) {
+                localDataSource.insertAllReviews(
+                    DataMapper.mapReviewResponseToEntities(animeId, data))
             }
 
         }.asFlow()

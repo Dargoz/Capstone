@@ -19,4 +19,7 @@ abstract class AppModule {
     @Binds
     abstract fun provideCharactersAndStaffUseCase(
         animeCharactersAndStaffInteractor: AnimeCharactersAndStaffInteractor): AnimeCharactersAndStaffUseCase
+
+    @Binds
+    abstract fun provideAnimeReviewsUseCase(animeReviewsInteractor: AnimeReviewsInteractor): AnimeReviewsUseCase
 }
