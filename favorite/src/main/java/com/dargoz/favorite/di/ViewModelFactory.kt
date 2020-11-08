@@ -1,5 +1,5 @@
 
-package com.smarttoolfactory.dashboard.di
+package com.dargoz.favorite.di
 
 import android.os.Bundle
 import androidx.annotation.MainThread
