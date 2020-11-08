@@ -12,4 +12,6 @@ interface IDataRepository {
     fun getDetailAnime(animeId: Long): Flow<Resource<Anime>>
     fun getAnimeCharactersAndStaff(animeId: Long): Flow<Resource<List<Characters>?>>
     fun getAnimeReviews(animeId: Long): Flow<Resource<List<Review>>>
+    fun getFavoriteAnimeList(): Flow<List<Anime>>
+    fun updateAnimeFavorite(animeId: Long, isFavorite: Boolean)
 }

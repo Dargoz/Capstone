@@ -17,6 +17,8 @@ class LocalDataSource @Inject constructor(private val animeDao: AnimeDao,
 
     fun getAnimeReviewsById(malId: Long): Flow<List<ReviewEntity>> = reviewDao.getReviewsByAnimeId(malId)
 
+    fun getFavoriteAnimeList(): Flow<List<AnimeEntity>> = animeDao.getFavoriteAnime()
+
     suspend fun insertAllAnime(animeEntities: List<AnimeEntity>) = animeDao.insertAllAnime(animeEntities)
 
     suspend fun updateAnime(animeEntity: AnimeEntity) = animeDao.updateAnime(animeEntity)
@@ -25,5 +27,7 @@ class LocalDataSource @Inject constructor(private val animeDao: AnimeDao,
             = animeDao.updateAnimeCharacters(animeId, characterList)
 
     suspend fun insertAllReviews(reviewEntities: List<ReviewEntity>) = reviewDao.insertAllReviews(reviewEntities)
+
+    fun updateAnimeFavoriteFlag(animeId: Long, isFavorite: Boolean) = animeDao.updateAnimeFavorite(animeId, isFavorite)
 
 }

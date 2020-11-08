@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import com.dargoz.capstone.R
 import com.dargoz.capstone.databinding.DetailFragmentBinding
 import com.dargoz.capstone.ui.adapters.ViewPagerAdapter
-import com.dargoz.capstone.utils.AnimeObjectListener
 import com.dargoz.capstone.vm.DetailViewModel
 import com.dargoz.domain.models.Anime
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,6 +51,11 @@ class DetailFragment : Fragment() {
                 R.color.favorite_color_state_list
             )
         binding.favoriteButton.isActivated = anime.isFavorite
+        binding.favoriteButton.setOnClickListener {
+            val isFavorite = !anime.isFavorite
+            viewModel.updateAnimeFavoriteFlag(anime.malId, isFavorite)
+            binding.favoriteButton.isActivated = isFavorite
+        }
     }
 
     private fun setupViewPager() {

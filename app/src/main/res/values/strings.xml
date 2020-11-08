@@ -8,7 +8,7 @@
     <string name="characters_text">Characters</string>
     <string name="reviews_text">Reviews</string>
     <string name="my_anime_suggestions_text">My Anime Suggestions</string>
-    <string name="latest_updated_episode_text">Latest Updated Episode</string>
+    <string name="latest_updated_episode_text">Today New Episode</string>
     <string name="favorite_button_content_desc">favorite button</string>
 
     <string name="alternative_titles_text">Alternative Titles</string>
@@ -26,4 +26,14 @@
     <string name="sample_reviewer_content">Here is my early review of RE: Zero, and if it lives up to it\'s previous season!  It certainly does! It really picks up where we left off, and continues as if it was more than a one season show, which is great to see from an adored show. You won\'t go wrong with picking up season two, as we\'re in for treat, and you\'ll be glad to pick it up and continue it\'s story!  The tone is what you would expect from this show, the art and the sound matching the themes of the show in general, being that they look great, but also match the read more</string>
     <string name="helpful_string_format">%1$d people vote helpful</string>
     <string name="overall_rating_string_format">Overall rating : %1$d</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="anime_title_text">Anime</string>
+    <string name="manga_title_text">Manga</string>
+    <string name="news_title_text">News</string>
+    <string name="personal_title_text">Personal</string>
+    <string name="personal_settings_text">Personal Settings</string>
+    <string name="language_setting_icon_constent_desc">language setting icon</string>
+    <string name="arrow_icon_content_desc">arrow icon</string>
+    <string name="language_setting_text">Language Setting</string>
+    <string name="favorite_list_text">Favorite List</string>
 </resources>

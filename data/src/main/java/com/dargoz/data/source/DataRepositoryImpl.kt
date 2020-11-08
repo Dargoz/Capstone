@@ -7,6 +7,7 @@ import com.dargoz.data.source.remote.network.ApiResponse
 import com.dargoz.data.source.remote.responses.AnimeResponse
 import com.dargoz.data.source.remote.responses.CharacterResponse
 import com.dargoz.data.source.remote.responses.ReviewResponse
+import com.dargoz.data.utils.AppExecutors
 import com.dargoz.data.utils.DataMapper
 import com.dargoz.domain.Resource
 import com.dargoz.domain.models.Anime
@@ -20,8 +21,9 @@ import javax.inject.Singleton
 
 @Singleton
 class DataRepositoryImpl @Inject constructor(
-    val localDataSource: LocalDataSource,
-    val remoteDataSource: RemoteDataSource
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource,
+    private val appExecutors: AppExecutors
 ) : IDataRepository {
 
     override fun getCurrentSeasonAnimeList(
@@ -40,7 +42,7 @@ class DataRepositoryImpl @Inject constructor(
             override suspend fun shouldFetch(data: List<Anime>?): Boolean = true
 
             override suspend fun saveCallResult(data: List<AnimeResponse>, cache: List<Anime>?) {
-                localDataSource.insertAllAnime(DataMapper.mapResponseToEntities(data))
+                localDataSource.insertAllAnime(DataMapper.mapResponseToEntities(data, cache))
             }
 
 
@@ -119,4 +121,15 @@ class DataRepositoryImpl @Inject constructor(
             }
 
         }.asFlow()
+
+    override fun getFavoriteAnimeList(): Flow<List<Anime>> {
+        return localDataSource.getFavoriteAnimeList().map { DataMapper.mapEntitiesToDomain(it) }
+    }
+
+    override fun updateAnimeFavorite(animeId: Long, isFavorite: Boolean) {
+
+        appExecutors.diskIO().execute { localDataSource.updateAnimeFavoriteFlag(animeId, isFavorite) }
+    }
+
+
 }

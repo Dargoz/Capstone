@@ -5,9 +5,10 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ApplicationComponent
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ApplicationComponent::class)
 abstract class AppModule {
 
     @Binds
@@ -22,4 +23,10 @@ abstract class AppModule {
 
     @Binds
     abstract fun provideAnimeReviewsUseCase(animeReviewsInteractor: AnimeReviewsInteractor): AnimeReviewsUseCase
+
+    @Binds
+    abstract fun provideUpdateAnimeFavoriteUseCase(updateAnimeFavoriteInteractor: UpdateAnimeFavoriteInteractor): UpdateAnimeFavoriteUseCase
+
+    @Binds
+    abstract fun provideFavoriteUseCase(favoriteInteractor: FavoriteInteractor): FavoriteUseCase
 }

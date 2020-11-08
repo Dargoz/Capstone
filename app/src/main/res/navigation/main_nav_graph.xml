@@ -13,10 +13,36 @@
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mangaFragment"
+            app:destination="@id/mangaFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.dargoz.capstone.ui.DetailFragment"
         android:label="detail_fragment"
         tools:layout="@layout/detail_fragment" />
+    <fragment
+        android:id="@+id/mangaFragment"
+        android:name="com.dargoz.capstone.ui.MangaFragment"
+        android:label="manga_fragment"
+        tools:layout="@layout/manga_fragment" >
+        <action
+            android:id="@+id/action_mangaFragment_to_newsFragment"
+            app:destination="@id/newsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newsFragment"
+        android:name="com.dargoz.capstone.ui.NewsFragment"
+        android:label="news_fragment"
+        tools:layout="@layout/news_fragment" >
+        <action
+            android:id="@+id/action_newsFragment_to_personalFragment"
+            app:destination="@id/personalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/personalFragment"
+        android:name="com.dargoz.capstone.ui.PersonalFragment"
+        android:label="personal_fragment"
+        tools:layout="@layout/personal_fragment" />
 </navigation>

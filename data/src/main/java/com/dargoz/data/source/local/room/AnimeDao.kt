@@ -26,4 +26,7 @@ interface AnimeDao {
     @Query("UPDATE anime SET characters=:characters WHERE malId=:malId")
     suspend fun updateAnimeCharacters(malId: Long, characters: List<Characters>)
 
+    @Query("UPDATE anime SET isFavorite=:isFavorite WHERE malId=:malId")
+    fun updateAnimeFavorite(malId: Long, isFavorite: Boolean)
+
 }

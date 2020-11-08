@@ -44,7 +44,7 @@ class ReviewListAdapter : RecyclerView.Adapter<ReviewListAdapter.ReviewViewHolde
                 itemView.resources.getString(R.string.helpful_string_format,
                     reviewList[position].helpfulCount)
             binding.reviewerOverallRating.text = itemView.resources
-                .getString(R.string.overall_rating_string_format, 
+                .getString(R.string.overall_rating_string_format,
                     reviewList[position].reviewer.scores.overall)
 
             binding.reviewerContent.text = reviewList[position].content

@@ -41,11 +41,13 @@ object DataMapper {
         return animeList
     }
 
-    fun mapResponseToEntities(animeList: List<AnimeResponse>): List<AnimeEntity> {
+    fun mapResponseToEntities(animeList: List<AnimeResponse>, cache: List<Anime>?): List<AnimeEntity> {
         val animeEntities = ArrayList<AnimeEntity>()
         Log.v("DRG", "result : ${animeList[0].id}")
+        var index = 0
         animeList.map {
             Log.v("DRG", "result : ${it.id}")
+            val tempIsFavorite = cache?.get(index++)?.isFavorite ?: false
             val animeEntity = AnimeEntity(
                 malId = it.id,
                 title = it.title,
@@ -66,7 +68,7 @@ object DataMapper {
                 characters = null,
                 openingThemes = it.openingThemes,
                 endingThemes = it.endingThemes,
-                isFavorite = false
+                isFavorite = tempIsFavorite
             )
             animeEntities.add(animeEntity)
         }
