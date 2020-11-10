@@ -40,13 +40,40 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        showCurrentSeasonAnimeList()
+        showTopUpcomingAnimeList()
+    }
+
+    private fun showTopUpcomingAnimeList() {
+        val adapter = AnimeListAdapter()
+        adapter.setOnItemClickListener(this)
+        binding.animeSuggestionRcView.adapter = adapter
+        viewModel.topUpcomingAnime.observe(viewLifecycleOwner, { anime ->
+            if (anime != null) {
+                when (anime) {
+                    is Resource.Loading -> Log.d("DRG", "Loading...")
+                    is Resource.Success -> {
+                        Log.i("DRG", "Top Success : ${anime.data!!.size}")
+                        binding.animeSuggestionLoadingLayout .root.stopShimmer()
+                        binding.animeSuggestionLoadingLayout.root.visibility = View.GONE
+                        adapter.setAnimeList(anime.data!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                    is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
+                }
+            }
+
+        })
+    }
+
+    private fun showCurrentSeasonAnimeList() {
         val adapter = AnimeListAdapter()
         adapter.setOnItemClickListener(this)
         binding.currentSeasonTitle.text = viewModel.setCurrentSeasonTitle()
         binding.currentSeasonRcView.adapter = adapter
         viewModel.anime.observe(viewLifecycleOwner, { anime ->
-            if(anime != null) {
-                when(anime) {
+            if (anime != null) {
+                when (anime) {
                     is Resource.Loading -> Log.d("DRG", "Loading...")
                     is Resource.Success -> {
                         Log.i("DRG", "Success : ${anime.data!!.size}")
@@ -54,12 +81,34 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
                         binding.currentSeasonLoadingLayout.root.visibility = View.GONE
                         adapter.setAnimeList(anime.data!!)
                         adapter.notifyDataSetChanged()
+                        showTodayAnimeList()
                     }
                     is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
                 }
             }
         })
+    }
 
+    private fun showTodayAnimeList() {
+        val adapter = AnimeListAdapter()
+        adapter.setOnItemClickListener(this)
+        binding.todayEpisodeRcView.adapter = adapter
+        viewModel.todayAnimeSchedule.observe(viewLifecycleOwner, { anime ->
+            if (anime != null) {
+                when (anime) {
+                    is Resource.Loading -> Log.d("DRG", "Loading...")
+                    is Resource.Success -> {
+                        Log.i("DRG", "Today Success : ${anime.data!!.size}")
+                        binding.todayEpisodeLoadingLayout .root.stopShimmer()
+                        binding.todayEpisodeLoadingLayout.root.visibility = View.GONE
+                        adapter.setAnimeList(anime.data!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                    is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
+                }
+            }
+
+        })
     }
 
     override fun onItemClick(anime: Anime) {

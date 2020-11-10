@@ -3,6 +3,7 @@ package com.dargoz.data.utils
 import android.util.Log
 import com.dargoz.data.source.local.entity.AnimeEntity
 import com.dargoz.data.source.local.entity.ReviewEntity
+import com.dargoz.data.source.remote.network.ApiResponse
 import com.dargoz.data.source.remote.responses.*
 import com.dargoz.domain.models.*
 
@@ -41,13 +42,27 @@ object DataMapper {
         return animeList
     }
 
-    fun mapResponseToEntities(animeList: List<AnimeResponse>, cache: List<Anime>?): List<AnimeEntity> {
+
+    fun mapResponseToEntities(
+        animeList: List<AnimeResponse>,
+        cache: List<Anime>?,
+        seasonName: String = "",
+        year: Int = 0,
+        day: String = "",
+        subtype: String = "",
+    ): List<AnimeEntity> {
         val animeEntities = ArrayList<AnimeEntity>()
         Log.v("DRG", "result : ${animeList[0].id}")
         var index = 0
         animeList.map {
             Log.v("DRG", "result : ${it.id}")
-            val tempIsFavorite = cache?.get(index++)?.isFavorite ?: false
+
+            val tempIsFavorite = try {
+                cache?.get(index++)?.isFavorite ?: false
+            } catch (e: Exception) {
+                false
+            }
+
             val animeEntity = AnimeEntity(
                 malId = it.id,
                 title = it.title,
@@ -57,7 +72,7 @@ object DataMapper {
                 synopsis = it.synopsis,
                 type = it.type,
                 source = it.source,
-                status = it.status,
+                status = subtype.ifEmpty { it.status },
                 episodes = it.episodes,
                 duration = it.duration,
                 rating = it.rating,
@@ -68,36 +83,14 @@ object DataMapper {
                 characters = null,
                 openingThemes = it.openingThemes,
                 endingThemes = it.endingThemes,
-                isFavorite = tempIsFavorite
+                isFavorite = tempIsFavorite,
+                seasonName = seasonName,
+                seasonYear = year,
+                releaseDay = day,
             )
             animeEntities.add(animeEntity)
         }
         return animeEntities
-    }
-
-    private fun mapDomainToEntity(anime: Anime): AnimeEntity {
-        return AnimeEntity(
-            malId = anime.id,
-            title = anime.title,
-            titleEnglish = anime.titleEnglish,
-            titleJapanese = anime.titleJapanese,
-            imageUrl = anime.imageUrl,
-            synopsis = anime.synopsis,
-            type = anime.type,
-            source = anime.source,
-            status = anime.status,
-            episodes = anime.episodes,
-            duration = anime.duration,
-            rating = anime.rating,
-            popularity = anime.popularity,
-            members = anime.members,
-            score = anime.score,
-            genres = anime.genres,
-            characters = anime.characters,
-            openingThemes = anime.openingThemes,
-            endingThemes = anime.endingThemes,
-            isFavorite = anime.isFavorite
-        )
     }
 
     private fun mapResponseToModel(genreResponses: List<GenreResponse>): List<Genre> {
@@ -112,6 +105,34 @@ object DataMapper {
             genreList.add(genre)
         }
         return genreList
+    }
+
+    fun mapTopAnimeResponseToAnimeResponse(topAnimeResponse: List<TopAnimeResponse>) : List<AnimeResponse> {
+        val animeResponseList = ArrayList<AnimeResponse>()
+        topAnimeResponse.map {
+            val animeResponse = AnimeResponse(
+                id = it.malId,
+                title = it.title,
+                imageUrl = it.imageUrl,
+                members =  it.members,
+                type =  it.type,
+                score = 0.0,
+                titleJapanese = "",
+                titleEnglish = "",
+                status = "",
+                source = "",
+                synopsis = "",
+                duration = "",
+                episodes = 0,
+                popularity = 0,
+                rating = "",
+                genres = ArrayList(),
+                endingThemes = ArrayList(),
+                openingThemes = ArrayList(),
+            )
+            animeResponseList.add(animeResponse)
+        }
+        return animeResponseList
     }
 
     fun mapResponseToModelChar(characterResponse: List<CharacterResponse>): List<Characters> {
@@ -130,7 +151,8 @@ object DataMapper {
         return charactersList
     }
 
-    fun mapVoiceActorResponseToModel(voiceActorResponse: List<VoiceActorResponse>): List<VoiceActor> {
+    private fun mapVoiceActorResponseToModel(voiceActorResponse: List<VoiceActorResponse>)
+            : List<VoiceActor> {
         val voiceActorList = ArrayList<VoiceActor>()
         voiceActorResponse.map {
             val voiceActor = VoiceActor(
@@ -257,5 +279,9 @@ object DataMapper {
             character = scores.character,
             enjoyment = scores.enjoyment
         )
+    }
+
+    fun mapApiResponseToResource(it: ApiResponse<List<TopAnimeResponse>>) {
+        TODO("Not yet implemented")
     }
 }

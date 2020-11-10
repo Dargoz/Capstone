@@ -4,7 +4,6 @@ import com.dargoz.domain.usecases.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ApplicationComponent
 
 @Module
@@ -12,7 +11,7 @@ import dagger.hilt.android.components.ApplicationComponent
 abstract class AppModule {
 
     @Binds
-    abstract fun provideSeasonAnimeUseCase(seasonInteractor: CurrentSeasonInteractor): CurrentSeasonUseCase
+    abstract fun provideSeasonAnimeUseCase(seasonInteractor: AnimeInteractor): AnimeUseCase
 
     @Binds
     abstract fun provideAnimeDetailUseCase(animeDetailInteractor: AnimeDetailInteractor): AnimeDetailUseCase

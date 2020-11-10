@@ -11,9 +11,13 @@ import javax.inject.Inject
 class LocalDataSource @Inject constructor(private val animeDao: AnimeDao,
                                           private val reviewDao: ReviewDao) {
 
-    fun getAllAnimeOfSeason(): Flow<List<AnimeEntity>> = animeDao.getAllAnime()
+    fun getAllAnimeOfSeason(year: Int, seasonName: String): Flow<List<AnimeEntity>> = animeDao.getAllAnimeSeason(year, seasonName)
 
     fun getAnimeByMalId(malId : Long): Flow<AnimeEntity> = animeDao.getAnimeByMalId(malId)
+
+    fun getAllTodayAnime(day: String): Flow<List<AnimeEntity>> = animeDao.getAllTodayAnime(day)
+
+    fun getListAnimeOf(subtype: String): Flow<List<AnimeEntity>> = animeDao.getListAnimeOf(subtype)
 
     fun getAnimeReviewsById(malId: Long): Flow<List<ReviewEntity>> = reviewDao.getReviewsByAnimeId(malId)
 

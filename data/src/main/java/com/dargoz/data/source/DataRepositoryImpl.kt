@@ -7,8 +7,10 @@ import com.dargoz.data.source.remote.network.ApiResponse
 import com.dargoz.data.source.remote.responses.AnimeResponse
 import com.dargoz.data.source.remote.responses.CharacterResponse
 import com.dargoz.data.source.remote.responses.ReviewResponse
+import com.dargoz.data.source.remote.responses.TopAnimeResponse
 import com.dargoz.data.utils.AppExecutors
 import com.dargoz.data.utils.DataMapper
+import com.dargoz.data.utils.DataMapper.mapTopAnimeResponseToAnimeResponse
 import com.dargoz.domain.Resource
 import com.dargoz.domain.models.Anime
 import com.dargoz.domain.models.Characters
@@ -36,13 +38,18 @@ class DataRepositoryImpl @Inject constructor(
                 remoteDataSource.getSeasonAnimeList(year, seasonName)
 
             override suspend fun loadFromDB(): Flow<List<Anime>> =
-                localDataSource.getAllAnimeOfSeason()
+                localDataSource.getAllAnimeOfSeason(year, seasonName)
                     .map { DataMapper.mapEntitiesToDomain(it) }
 
-            override suspend fun shouldFetch(data: List<Anime>?): Boolean = true
+            override suspend fun shouldFetch(data: List<Anime>?): Boolean =
+                data != null && data.isEmpty()
 
             override suspend fun saveCallResult(data: List<AnimeResponse>, cache: List<Anime>?) {
-                localDataSource.insertAllAnime(DataMapper.mapResponseToEntities(data, cache))
+                localDataSource.insertAllAnime(
+                    DataMapper.mapResponseToEntities(data, cache,
+                        seasonName = seasonName,
+                        year = year
+                    ))
             }
 
 
@@ -127,9 +134,56 @@ class DataRepositoryImpl @Inject constructor(
     }
 
     override fun updateAnimeFavorite(animeId: Long, isFavorite: Boolean) {
-
         appExecutors.diskIO().execute { localDataSource.updateAnimeFavoriteFlag(animeId, isFavorite) }
     }
+
+    override fun getScheduleAnime(day: String): Flow<Resource<List<Anime>>> =
+        object : NetworkBoundResource<List<Anime>, List<AnimeResponse>>() {
+            override suspend fun createCall(): Flow<ApiResponse<List<AnimeResponse>>> {
+                return remoteDataSource.getScheduleAnime(day)
+            }
+
+            override suspend fun loadFromDB(): Flow<List<Anime>> {
+                return localDataSource.getAllTodayAnime(day)
+                    .map { DataMapper.mapEntitiesToDomain(it) }
+            }
+
+            override suspend fun shouldFetch(data: List<Anime>?): Boolean {
+                return true
+            }
+
+            override suspend fun saveCallResult(data: List<AnimeResponse>, cache: List<Anime>?) {
+                localDataSource.insertAllAnime(
+                    DataMapper.mapResponseToEntities(data, cache, day = day))
+            }
+
+        }.asFlow()
+
+    override fun getTopList(type: String, page: Int, subtype: String): Flow<Resource<List<Anime>>> =
+        object : NetworkBoundResource<List<Anime>, List<TopAnimeResponse>>() {
+            override suspend fun createCall(): Flow<ApiResponse<List<TopAnimeResponse>>> {
+                return remoteDataSource.getTopList(type, page, subtype)
+            }
+
+            override suspend fun loadFromDB(): Flow<List<Anime>> {
+                return localDataSource.getListAnimeOf(subtype)
+                    .map { DataMapper.mapEntitiesToDomain(it) }
+            }
+
+            override suspend fun shouldFetch(data: List<Anime>?): Boolean {
+                return true
+            }
+
+            override suspend fun saveCallResult(data: List<TopAnimeResponse>, cache: List<Anime>?) {
+                localDataSource.insertAllAnime(
+                    DataMapper.mapResponseToEntities(
+                        mapTopAnimeResponseToAnimeResponse(data),
+                        cache,
+                        subtype = subtype)
+                )
+            }
+
+        }.asFlow()
 
 
 }

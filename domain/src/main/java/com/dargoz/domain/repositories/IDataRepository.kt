@@ -14,4 +14,6 @@ interface IDataRepository {
     fun getAnimeReviews(animeId: Long): Flow<Resource<List<Review>>>
     fun getFavoriteAnimeList(): Flow<List<Anime>>
     fun updateAnimeFavorite(animeId: Long, isFavorite: Boolean)
+    fun getScheduleAnime(day: String): Flow<Resource<List<Anime>>>
+    fun getTopList(type: String, page: Int, subtype: String): Flow<Resource<List<Anime>>>
 }

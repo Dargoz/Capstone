@@ -49,6 +49,14 @@ data class AnimeEntity constructor(
 
     val isFavorite: Boolean,
 
+    var seasonName: String = "",
+
+    var seasonYear: Int = -1,
+
+    var releaseDay: String = "",
+
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = null
+    var id: Long? = null,
+
+
 )
