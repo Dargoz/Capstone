@@ -44,5 +44,13 @@
         android:id="@+id/personalFragment"
         android:name="com.dargoz.capstone.ui.PersonalFragment"
         android:label="personal_fragment"
-        tools:layout="@layout/personal_fragment" />
+        tools:layout="@layout/personal_fragment" >
+        <action
+            android:id="@+id/action_personalFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.dargoz.capstone.ui.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

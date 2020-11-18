@@ -2,6 +2,7 @@ package com.dargoz.capstone
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.dargoz.capstone.databinding.ActivityMainBinding
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity() {
             binding.mainBottomNavigation,
             navHostFragment.navController
         )
+    }
+
+    fun hideBottomNav(flag: Boolean) {
+        binding.mainBottomNavigation.visibility = if (flag) View.GONE else View.VISIBLE
     }
 
 

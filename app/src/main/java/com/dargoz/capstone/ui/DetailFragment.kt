@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.fragment.app.viewModels
+import com.dargoz.capstone.MainActivity
 import com.dargoz.capstone.R
 import com.dargoz.capstone.databinding.DetailFragmentBinding
 import com.dargoz.capstone.ui.adapters.ViewPagerAdapter
@@ -32,6 +33,7 @@ class DetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        (requireActivity() as MainActivity).hideBottomNav(true)
         val anime: Anime = requireArguments().getParcelable("anime")!!
         showDetailAnimeData(anime)
     }
@@ -66,6 +68,7 @@ class DetailFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        (requireActivity() as MainActivity).hideBottomNav(false)
         super.onDestroyView()
         _binding = null
     }

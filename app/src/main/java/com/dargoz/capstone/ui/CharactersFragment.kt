@@ -43,8 +43,10 @@ class CharactersFragment : Fragment() {
                 is Resource.Loading -> Log.i("DRG","Loading Characters...")
                 is Resource.Success -> {
                     Log.v("DRG","characters list : ${characters.data}")
-                    adapter.characterStaffList = characters.data!!
-                    adapter.notifyDataSetChanged()
+                    if(characters.data != null) {
+                        adapter.characterStaffList = characters.data!!
+                        adapter.notifyDataSetChanged()
+                    }
                 }
                 is Resource.Error -> {
                     Log.v("DRG","error : ${characters.data}")
