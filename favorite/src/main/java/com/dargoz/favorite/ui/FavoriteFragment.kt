@@ -61,8 +61,14 @@ class FavoriteFragment : Fragment() {
         binding.favoriteListRcView.adapter = adapter
         viewModel.favoriteAnimeList.observe(viewLifecycleOwner, {
             Log.i("DRG","favorite list : $it")
-            adapter.setAnimeList(it)
-            adapter.notifyDataSetChanged()
+            if(it.isEmpty()) {
+                binding.emptyFavoriteTextView.visibility = View.VISIBLE
+            } else {
+                binding.emptyFavoriteTextView.visibility = View.GONE
+                adapter.setAnimeList(it)
+                adapter.notifyDataSetChanged()
+            }
+
         })
     }
 

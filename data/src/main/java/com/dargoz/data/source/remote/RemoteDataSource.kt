@@ -7,6 +7,7 @@ import com.dargoz.data.source.remote.responses.AnimeResponse
 import com.dargoz.data.source.remote.responses.CharacterResponse
 import com.dargoz.data.source.remote.responses.ReviewResponse
 import com.dargoz.data.source.remote.responses.TopAnimeResponse
+import com.dargoz.data.utils.ResponseHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -94,7 +95,7 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         flow {
             try {
                 val response = apiService.getAnimeSchedule(day)
-                val data = response.tuesday
+                val data = ResponseHelper.getTodayField(day, response)
                 Log.d("DRG", "$day data : $data")
                 if (data.isNotEmpty()) {
                     emit(ApiResponse.Success(data))
