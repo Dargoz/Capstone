@@ -19,11 +19,11 @@ class AnimeInteractor @Inject constructor(private val dataRepository: IDataRepos
     )
 
     override fun getTodayScheduleAnime(): Flow<Resource<List<Anime>>> {
-        val simpleDateFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+        val simpleDateFormat = SimpleDateFormat("EEEE", Locale.US)
         val date = Date()
         val dayOfWeek = simpleDateFormat.format(date)
         Log.i("DRG","Today is : $dayOfWeek")
-        return dataRepository.getScheduleAnime(dayOfWeek.toLowerCase(Locale.ROOT))
+        return dataRepository.getScheduleAnime(dayOfWeek.toLowerCase(Locale.US))
     }
 
     override fun getTopUpcomingAnime(): Flow<Resource<List<Anime>>> {

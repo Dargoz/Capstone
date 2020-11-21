@@ -36,12 +36,14 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        showCurrentSeasonAnimeList()
+        showTopUpcomingAnimeList()
+        showTodayAnimeList()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        showCurrentSeasonAnimeList()
-        showTopUpcomingAnimeList()
+
     }
 
     private fun showTopUpcomingAnimeList() {
@@ -81,7 +83,6 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
                         binding.currentSeasonLoadingLayout.root.visibility = View.GONE
                         adapter.setAnimeList(anime.data!!)
                         adapter.notifyDataSetChanged()
-                        showTodayAnimeList()
                     }
                     is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
                 }
