@@ -28,15 +28,6 @@ class MainActivity : AppCompatActivity() {
         setViewFunctionality()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        Log.w("DRG","configuration changed : ")
-    }
-
-    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-        Log.i("DRG","applyOverrideConfiguration : ")
-        super.applyOverrideConfiguration(overrideConfiguration)
-    }
     private fun setViewFunctionality() {
         val navHostFragment: NavHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment

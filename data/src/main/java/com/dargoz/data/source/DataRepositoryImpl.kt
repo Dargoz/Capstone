@@ -4,16 +4,14 @@ import android.util.Log
 import com.dargoz.data.source.local.LocalDataSource
 import com.dargoz.data.source.remote.RemoteDataSource
 import com.dargoz.data.source.remote.network.ApiResponse
-import com.dargoz.data.source.remote.responses.AnimeResponse
-import com.dargoz.data.source.remote.responses.CharacterResponse
-import com.dargoz.data.source.remote.responses.ReviewResponse
-import com.dargoz.data.source.remote.responses.TopAnimeResponse
+import com.dargoz.data.source.remote.responses.*
 import com.dargoz.data.utils.AppExecutors
 import com.dargoz.data.utils.DataMapper
 import com.dargoz.data.utils.DataMapper.mapTopAnimeResponseToAnimeResponse
 import com.dargoz.domain.Resource
 import com.dargoz.domain.models.Anime
 import com.dargoz.domain.models.Characters
+import com.dargoz.domain.models.Manga
 import com.dargoz.domain.models.Review
 import com.dargoz.domain.repositories.IDataRepository
 import kotlinx.coroutines.flow.Flow
@@ -46,10 +44,12 @@ class DataRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: List<AnimeResponse>, cache: List<Anime>?) {
                 localDataSource.insertAllAnime(
-                    DataMapper.mapResponseToEntities(data, cache,
+                    DataMapper.mapResponseToEntities(
+                        data, cache,
                         seasonName = seasonName,
                         year = year
-                    ))
+                    )
+                )
             }
 
 
@@ -99,10 +99,13 @@ class DataRepositoryImpl @Inject constructor(
                 return data == null
             }
 
-            override suspend fun saveCallResult(data: List<CharacterResponse>,
-                                                cache: List<Characters>?) {
+            override suspend fun saveCallResult(
+                data: List<CharacterResponse>,
+                cache: List<Characters>?
+            ) {
                 localDataSource.updateAnimeCharactersByMalId(
-                    animeId, DataMapper.mapResponseToModelChar(data))
+                    animeId, DataMapper.mapResponseToModelChar(data)
+                )
             }
 
         }.asFlow()
@@ -124,7 +127,8 @@ class DataRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: List<ReviewResponse>, cache: List<Review>?) {
                 localDataSource.insertAllReviews(
-                    DataMapper.mapReviewResponseToEntities(animeId, data))
+                    DataMapper.mapReviewResponseToEntities(animeId, data)
+                )
             }
 
         }.asFlow()
@@ -134,7 +138,8 @@ class DataRepositoryImpl @Inject constructor(
     }
 
     override fun updateAnimeFavorite(animeId: Long, isFavorite: Boolean) {
-        appExecutors.diskIO().execute { localDataSource.updateAnimeFavoriteFlag(animeId, isFavorite) }
+        appExecutors.diskIO()
+            .execute { localDataSource.updateAnimeFavoriteFlag(animeId, isFavorite) }
     }
 
     override fun getScheduleAnime(day: String): Flow<Resource<List<Anime>>> =
@@ -154,7 +159,8 @@ class DataRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: List<AnimeResponse>, cache: List<Anime>?) {
                 localDataSource.insertAllAnime(
-                    DataMapper.mapResponseToEntities(data, cache, day = day))
+                    DataMapper.mapResponseToEntities(data, cache, day = day)
+                )
             }
 
         }.asFlow()
@@ -179,9 +185,33 @@ class DataRepositoryImpl @Inject constructor(
                     DataMapper.mapResponseToEntities(
                         mapTopAnimeResponseToAnimeResponse(data),
                         cache,
-                        subtype = subtype)
+                        subtype = subtype
+                    )
                 )
             }
+
+        }.asFlow()
+
+    override fun getTopMangaList(type: String, page: Int, subtype: String)
+            : Flow<Resource<List<Manga>>> =
+        object : NetworkBoundResource<List<Manga>, List<MangaResponse>>() {
+            override suspend fun createCall(): Flow<ApiResponse<List<MangaResponse>>> {
+                return remoteDataSource.getMangaTopList(type, page, subtype)
+            }
+
+            override suspend fun loadFromDB(): Flow<List<Manga>> {
+                return localDataSource.getAllManga(subtype)
+                    .map { DataMapper.mapMangaEntitiesToDomain(it) }
+            }
+
+            override suspend fun shouldFetch(data: List<Manga>?): Boolean {
+                return true
+            }
+
+            override suspend fun saveCallResult(data: List<MangaResponse>, cache: List<Manga>?) {
+                localDataSource.insertAllManga(DataMapper.mapMangaResponseToEntities(data))
+            }
+
 
         }.asFlow()
 

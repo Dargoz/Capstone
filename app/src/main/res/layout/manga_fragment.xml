@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/softBlack"
     tools:context=".ui.MangaFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Manga Fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/top_manga_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="22sp"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:text="@string/top_manga_text" />
 
-</FrameLayout>
+        <include
+            android:id="@+id/top_manga_loading_layout"
+            tools:visibility="gone"
+            layout="@layout/list_loading_layout"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/top_manga_rc_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/manga_list_layout"/>
+
+        <TextView
+            android:id="@+id/top_manhwa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="22sp"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:text="@string/top_manhwa_text" />
+
+        <include
+            android:id="@+id/top_manhwa_loading_layout"
+            tools:visibility="gone"
+            layout="@layout/list_loading_layout"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/top_manhwa_rc_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/manga_list_layout"/>
+
+
+    </LinearLayout>
+
+</ScrollView>

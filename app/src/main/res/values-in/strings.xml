@@ -38,4 +38,6 @@
     <string name="language_setting_text">Pengaturan bahasa</string>
     <string name="favorite_list_text">Daftar Favorit</string>
     <string name="select_language_text">Pilih Bahasa</string>
+    <string name="top_manga_text">Top Manga</string>
+    <string name="top_manhwa_text">Top Manhwa</string>
 </resources>

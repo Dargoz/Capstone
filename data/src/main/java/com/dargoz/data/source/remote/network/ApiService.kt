@@ -25,6 +25,14 @@ interface ApiService {
     suspend fun getAnimeSchedule(@Path("day") day: String): ListScheduleResponse
 
     @GET("top/{type}/{page}/{subtype}")
-    suspend fun getTopList(@Path("type") type: String, @Path("page") page: Int,
-                           @Path("subtype") subtype: String): ListTopResponse
+    suspend fun getTopList(
+        @Path("type") type: String, @Path("page") page: Int,
+        @Path("subtype") subtype: String
+    ): ListTopResponse
+
+    @GET("top/{type}/{page}/{subtype}")
+    suspend fun getTopMangaList(
+        @Path("type") type: String, @Path("page") page: Int,
+        @Path("subtype") subtype: String
+    ): ListTopMangaResponse
 }

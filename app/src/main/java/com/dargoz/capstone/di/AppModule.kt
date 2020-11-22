@@ -28,4 +28,7 @@ abstract class AppModule {
 
     @Binds
     abstract fun provideFavoriteUseCase(favoriteInteractor: FavoriteInteractor): FavoriteUseCase
+
+    @Binds
+    abstract fun provideMangaUseCase(mangaInteractor: MangaInteractor): MangaUseCase
 }

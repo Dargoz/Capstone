@@ -41,10 +41,7 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
         showTodayAnimeList()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
 
-    }
 
     private fun showTopUpcomingAnimeList() {
         val adapter = AnimeListAdapter()

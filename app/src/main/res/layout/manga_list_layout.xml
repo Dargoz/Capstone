@@ -4,29 +4,37 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:layout_gravity="center"
+    android:background="@android:color/transparent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/anime_item_card"
+        android:id="@+id/manga_item_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="12dp"
-        app:cardCornerRadius="10dp">
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="2dp">
         <ImageView
-            android:id="@+id/anime_item_poster"
+            android:id="@+id/manga_backdrop_poster"
+            android:layout_width="120dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="6dp"
+            android:contentDescription="@string/image_poster_content_desc"
+            android:src="@color/grey"/>
+        <ImageView
+            android:id="@+id/manga_item_poster"
             android:layout_width="120dp"
             android:layout_height="180dp"
             android:contentDescription="@string/image_poster_content_desc"
             android:src="@color/colorPrimaryDark"/>
 
-
-
     </com.google.android.material.card.MaterialCardView>
     <TextView
-        android:id="@+id/anime_item_title"
+        android:id="@+id/manga_item_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"

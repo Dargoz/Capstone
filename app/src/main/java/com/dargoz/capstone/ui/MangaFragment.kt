@@ -1,17 +1,21 @@
 package com.dargoz.capstone.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.dargoz.capstone.databinding.MangaFragmentBinding
+import com.dargoz.capstone.ui.adapters.MangaListAdapter
 import com.dargoz.capstone.vm.MangaViewModel
+import com.dargoz.domain.Resource
+import com.dargoz.domain.models.Manga
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MangaFragment : Fragment() {
+class MangaFragment : Fragment(), MangaListAdapter.OnClick {
 
     companion object {
         fun newInstance() = MangaFragment()
@@ -31,12 +35,63 @@ class MangaFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        showTopMangaList()
+        showTopManhwaList()
+    }
 
+    private fun showTopMangaList() {
+        val adapter = MangaListAdapter()
+        adapter.setListener(this)
+        binding.topMangaRcView.adapter = adapter
+        viewModel.topManga.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    Log.i("DRG", "Loading... ${javaClass.simpleName}")
+                }
+                is Resource.Success -> {
+                    val mangaList = it.data
+                    binding.topMangaLoadingLayout.root.stopShimmer()
+                    binding.topMangaLoadingLayout.root.visibility = View.GONE
+                    Log.v("DRG","mangaList : ${mangaList.toString()}")
+                    adapter.setMangaList(mangaList!!)
+                    adapter.notifyDataSetChanged()
+
+                }
+            }
+        })
+    }
+
+    private fun showTopManhwaList() {
+        val adapter = MangaListAdapter()
+        adapter.setListener(this)
+        binding.topManhwaRcView.adapter = adapter
+        viewModel.topManhwa.observe(viewLifecycleOwner, {
+            when (it) {
+                is Resource.Loading -> {
+                    Log.i("DRG", "Loading... ${javaClass.simpleName}")
+                }
+                is Resource.Success -> {
+                    val mangaList = it.data
+                    binding.topManhwaLoadingLayout.root.stopShimmer()
+                    binding.topManhwaLoadingLayout.root.visibility = View.GONE
+                    if (mangaList != null && mangaList.isNotEmpty()) {
+                        adapter.setMangaList(mangaList)
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+        })
+    }
+
+    override fun onItemClick(manga: Manga) {
+        TODO("Not yet implemented")
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 
 }

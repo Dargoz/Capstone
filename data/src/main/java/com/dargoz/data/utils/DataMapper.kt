@@ -2,10 +2,12 @@ package com.dargoz.data.utils
 
 import android.util.Log
 import com.dargoz.data.source.local.entity.AnimeEntity
+import com.dargoz.data.source.local.entity.MangaEntity
 import com.dargoz.data.source.local.entity.ReviewEntity
-import com.dargoz.data.source.remote.network.ApiResponse
 import com.dargoz.data.source.remote.responses.*
 import com.dargoz.domain.models.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 object DataMapper {
 
@@ -281,7 +283,44 @@ object DataMapper {
         )
     }
 
-    fun mapApiResponseToResource(it: ApiResponse<List<TopAnimeResponse>>) {
-        TODO("Not yet implemented")
+    fun mapMangaEntitiesToDomain(it: List<MangaEntity>): List<Manga> {
+        val mangaList = ArrayList<Manga>()
+        it.map {
+            val manga = Manga(
+                id = it.id!!,
+                malId = it.malId,
+                rank = it.rank,
+                title = it.title,
+                url = it.url,
+                type = it.type.toLowerCase(Locale.ROOT),
+                volume = it.volume,
+                startDate = it.startDate,
+                members = it.members,
+                score = it.score,
+                imageUrl = it.imageUrl
+            )
+            mangaList.add(manga)
+        }
+        return mangaList
+    }
+
+    fun mapMangaResponseToEntities(data: List<MangaResponse>): List<MangaEntity> {
+        val mangaEntities = ArrayList<MangaEntity>()
+        data.map {
+            val mangaEntity = MangaEntity(
+                malId = it.malId,
+                rank = it.rank,
+                title = it.title,
+                url = it.url,
+                type = it.type.toLowerCase(Locale.ROOT),
+                volume = it.volume,
+                startDate = it.startDate,
+                members = it.members,
+                score = it.score,
+                imageUrl = it.imageUrl
+            )
+            mangaEntities.add(mangaEntity)
+        }
+        return mangaEntities
     }
 }

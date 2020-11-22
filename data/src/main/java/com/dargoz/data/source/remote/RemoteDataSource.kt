@@ -3,10 +3,7 @@ package com.dargoz.data.source.remote
 import android.util.Log
 import com.dargoz.data.source.remote.network.ApiResponse
 import com.dargoz.data.source.remote.network.ApiService
-import com.dargoz.data.source.remote.responses.AnimeResponse
-import com.dargoz.data.source.remote.responses.CharacterResponse
-import com.dargoz.data.source.remote.responses.ReviewResponse
-import com.dargoz.data.source.remote.responses.TopAnimeResponse
+import com.dargoz.data.source.remote.responses.*
 import com.dargoz.data.utils.ResponseHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -125,5 +122,24 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         }
     }.flowOn(Dispatchers.IO)
 
+    fun getMangaTopList(type: String, page: Int, subtype: String)
+            : Flow<ApiResponse<List<MangaResponse>>> = flow {
+        try {
+            Log.d("DRG", "$type $subtype")
+            val response = apiService.getTopMangaList(type, page, subtype)
+            Log.d("DRG", "response $type $subtype")
+            val data = response.top
+            Log.d("DRG", "$type $subtype data : $data")
+            if (data.isNotEmpty()) {
+                emit(ApiResponse.Success(data))
+            } else {
+                emit(ApiResponse.Empty)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(ApiResponse.Error(e.toString()))
+            Log.w("DRG", "${this.javaClass.simpleName} :: ${e.message}")
+        }
+    }.flowOn(Dispatchers.IO)
 
 }

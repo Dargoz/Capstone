@@ -37,4 +37,6 @@
     <string name="language_setting_text">Language Setting</string>
     <string name="favorite_list_text">Favorite List</string>
     <string name="select_language_text">Select Language</string>
+    <string name="top_manga_text">Top Manga</string>
+    <string name="top_manhwa_text">Top Manhwa</string>
 </resources>
