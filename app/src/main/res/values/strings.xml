@@ -29,7 +29,7 @@
     <string name="title_favorite">Favorite</string>
     <string name="anime_title_text">Anime</string>
     <string name="manga_title_text">Manga</string>
-    <string name="news_title_text">News</string>
+    <string name="search_title_text">Search</string>
     <string name="personal_title_text">Personal</string>
     <string name="personal_settings_text">Personal Settings</string>
     <string name="language_setting_icon_constent_desc">language setting icon</string>

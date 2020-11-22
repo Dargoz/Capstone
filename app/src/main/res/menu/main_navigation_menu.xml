@@ -9,9 +9,9 @@
         android:title="@string/manga_title_text"
         android:icon="@drawable/ic_baseline_menu_book_24"/>
     <item
-        android:id="@+id/newsFragment"
-        android:title="@string/news_title_text"
-        android:icon="@drawable/ic_baseline_library_books_24"/>
+        android:id="@+id/searchFragment"
+        android:title="@string/search_title_text"
+        android:icon="@drawable/ic_baseline_search_24"/>
     <item
         android:id="@+id/personalFragment"
         android:title="@string/personal_title_text"

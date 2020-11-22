@@ -1,12 +1,10 @@
 package com.dargoz.capstone
 
 import android.content.Context
-import android.content.res.Configuration
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.ActionBar
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.dargoz.capstone.databinding.ActivityMainBinding
@@ -24,8 +22,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
+        setActionBar()
         setContentView(binding.root)
         setViewFunctionality()
+    }
+
+    private fun setActionBar() {
+        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar!!.setCustomView(R.layout.action_bar_layout)
+        supportActionBar!!.elevation = 0.0F
     }
 
     private fun setViewFunctionality() {

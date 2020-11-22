@@ -35,4 +35,9 @@ interface ApiService {
         @Path("type") type: String, @Path("page") page: Int,
         @Path("subtype") subtype: String
     ): ListTopMangaResponse
+
+    @GET("search/{type}?q={query}&page={pageNumber}")
+    suspend fun search(@Path("type") type: String,
+                       @Path("query") queryString: String,
+                       @Path("pageNumber") pageNumber: Int)
 }

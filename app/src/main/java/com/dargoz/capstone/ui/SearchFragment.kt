@@ -6,24 +6,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.dargoz.capstone.databinding.NewsFragmentBinding
-import com.dargoz.capstone.vm.NewsViewModel
+import com.dargoz.capstone.databinding.SearchFragmentBinding
+import com.dargoz.capstone.vm.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class NewsFragment : Fragment() {
+@AndroidEntryPoint
+class SearchFragment : Fragment() {
 
     companion object {
-        fun newInstance() = NewsFragment()
+        fun newInstance() = SearchFragment()
     }
-    private var _binding: NewsFragmentBinding? = null
+    private var _binding: SearchFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: NewsViewModel by viewModels()
+    private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = NewsFragmentBinding.inflate(inflater, container, false)
+        _binding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
