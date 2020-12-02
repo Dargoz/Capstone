@@ -3,6 +3,7 @@ package com.dargoz.data.source.remote.network
 import com.dargoz.data.source.remote.responses.*
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -36,8 +37,8 @@ interface ApiService {
         @Path("subtype") subtype: String
     ): ListTopMangaResponse
 
-    @GET("search/{type}?q={query}&page={pageNumber}")
+    @GET("search/{type}")
     suspend fun search(@Path("type") type: String,
-                       @Path("query") queryString: String,
-                       @Path("pageNumber") pageNumber: Int)
+                       @Query("q") queryString: String,
+                       @Query("page") pageNumber: Int): ListAnimeResponse
 }

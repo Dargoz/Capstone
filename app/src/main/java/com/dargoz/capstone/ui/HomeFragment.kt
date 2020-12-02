@@ -28,7 +28,7 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -111,7 +111,7 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
 
     override fun onItemClick(anime: Anime) {
         val bundle = Bundle()
-        bundle.putParcelable("anime", anime)
+        bundle.putParcelable(DetailFragment.ANIME_DATA, anime)
         navController.navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 

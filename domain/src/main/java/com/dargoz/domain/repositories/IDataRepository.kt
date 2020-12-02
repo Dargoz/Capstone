@@ -18,4 +18,5 @@ interface IDataRepository {
     fun getScheduleAnime(day: String): Flow<Resource<List<Anime>>>
     fun getTopList(type: String, page: Int, subtype: String): Flow<Resource<List<Anime>>>
     fun getTopMangaList(type: String, page: Int, subtype: String): Flow<Resource<List<Manga>>>
+    fun getSearchData(type: String, queryString: String, pageNumber: Int): Flow<Resource<List<Anime>>>
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/favorite_nav_graph"
+    app:startDestination="@id/favoriteFragment">
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.dargoz.favorite.ui.FavoriteFragment">
+        <action
+            android:id="@+id/action_favoriteFragment_to_detailFragment2"
+            app:destination="@id/detailFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment2"
+        android:name="com.dargoz.capstone.ui.DetailFragment"
+        android:label="DetailFragment" />
+</navigation>

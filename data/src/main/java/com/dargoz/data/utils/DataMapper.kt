@@ -323,4 +323,30 @@ object DataMapper {
         }
         return mangaEntities
     }
+
+    fun mapAnimeResponseToDomain(animeResponse: AnimeResponse): Anime {
+        return Anime(
+            id = 0,
+            malId = animeResponse.id,
+            title = animeResponse.title,
+            titleEnglish = animeResponse.titleEnglish,
+            titleJapanese = animeResponse.titleJapanese,
+            imageUrl = animeResponse.imageUrl,
+            synopsis = animeResponse.synopsis,
+            type = animeResponse.type,
+            source = animeResponse.source,
+            status = animeResponse.status,
+            episodes = animeResponse.episodes,
+            duration = animeResponse.duration,
+            rating = animeResponse.rating,
+            popularity = animeResponse.popularity,
+            members = animeResponse.members,
+            score = animeResponse.score,
+            genres = ArrayList(),
+            characters = null,
+            openingThemes = null,
+            endingThemes = null,
+            isFavorite = false
+        )
+    }
 }

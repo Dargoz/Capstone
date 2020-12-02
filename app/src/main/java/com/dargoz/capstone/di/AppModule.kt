@@ -31,4 +31,7 @@ abstract class AppModule {
 
     @Binds
     abstract fun provideMangaUseCase(mangaInteractor: MangaInteractor): MangaUseCase
+
+    @Binds
+    abstract fun provideSearchUseCase(searchInteractor: SearchInteractor): SearchUseCase
 }

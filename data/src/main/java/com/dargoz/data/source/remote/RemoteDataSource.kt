@@ -142,4 +142,22 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         }
     }.flowOn(Dispatchers.IO)
 
+    fun getSearch(type: String, queryString: String, pageNumber: Int)
+    : Flow<ApiResponse<List<AnimeResponse>>> = flow {
+        try {
+            val response = apiService.search(type, queryString, pageNumber)
+            Log.d("DRG", "response $type ${response.results}")
+            val data = response.results
+            if(data.isNotEmpty()) {
+                emit(ApiResponse.Success(data))
+            } else {
+                emit(ApiResponse.Empty)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            emit(ApiResponse.Error(e.toString()))
+            Log.w("DRG", "${this.javaClass.simpleName} :: ${e.message}")
+        }
+    }.flowOn(Dispatchers.IO)
+
 }

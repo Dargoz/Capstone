@@ -7,21 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import com.dargoz.capstone.R
 import com.dargoz.capstone.di.FavoriteModuleDependencies
+import com.dargoz.capstone.ui.DetailFragment
 import com.dargoz.capstone.ui.adapters.AnimeListAdapter
+import com.dargoz.domain.models.Anime
 import com.dargoz.favorite.databinding.FavoriteFragmentBinding
 import com.dargoz.favorite.di.DaggerFavoriteComponent
 import com.dargoz.favorite.di.withFactory
 import dagger.hilt.android.EntryPointAccessors
 import javax.inject.Inject
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment(), AnimeListAdapter.OnClick {
 
     companion object {
         fun newInstance() = FavoriteFragment()
     }
     private var _binding: FavoriteFragmentBinding? = null
     private val binding get() = _binding!!
+    private lateinit var navController: NavController
 
     @Inject
     lateinit var favoriteViewModelFactory: FavoriteViewModelFactory
@@ -32,6 +38,11 @@ class FavoriteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         inject()
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
     }
 
     private fun inject() {
@@ -58,6 +69,7 @@ class FavoriteFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val adapter = AnimeListAdapter()
+        adapter.setOnItemClickListener(this)
         binding.favoriteListRcView.adapter = adapter
         viewModel.favoriteAnimeList.observe(viewLifecycleOwner, {
             Log.i("DRG","favorite list : $it")
@@ -75,6 +87,12 @@ class FavoriteFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClick(anime: Anime) {
+        val bundle = Bundle()
+        bundle.putParcelable(DetailFragment.ANIME_DATA, anime)
+        navController.navigate(R.id.action_favoriteFragment_to_detailFragment2, bundle)
     }
 
 }

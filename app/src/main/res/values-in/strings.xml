@@ -40,4 +40,7 @@
     <string name="select_language_text">Pilih Bahasa</string>
     <string name="top_manga_text">Top Manga</string>
     <string name="top_manhwa_text">Top Manhwa</string>
+    <string name="type_text">type :</string>
+    <string name="score_text">score :</string>
+    <string name="episode_text">episode :</string>
 </resources>

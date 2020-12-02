@@ -14,8 +14,7 @@ import com.dargoz.domain.models.Characters
 import com.dargoz.domain.models.Manga
 import com.dargoz.domain.models.Review
 import com.dargoz.domain.repositories.IDataRepository
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -215,5 +214,19 @@ class DataRepositoryImpl @Inject constructor(
 
         }.asFlow()
 
+    override fun getSearchData(type: String, queryString: String, pageNumber: Int)
+    : Flow<Resource<List<Anime>>> = flow {
+            when (val apiResponse = remoteDataSource
+                .getSearch(type, queryString, pageNumber).first()) {
+                is ApiResponse.Success -> {
+                    emit(Resource.Success(apiResponse.data.map {
+                        DataMapper.mapAnimeResponseToDomain(it)
+                    }))
+                }
+                is ApiResponse.Error -> {
+                    emit(Resource.Error<List<Anime>>(apiResponse.errorMessage))
+                }
+            }
 
+        }
 }

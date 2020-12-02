@@ -84,7 +84,7 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
     }
 
     override fun onItemClick(manga: Manga) {
-        TODO("Not yet implemented")
+        //do nothing
     }
 
     override fun onDestroyView() {

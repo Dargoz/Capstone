@@ -18,6 +18,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailFragment : Fragment() {
+    companion object {
+        const val ANIME_DATA = "anime"
+    }
+
     private var _binding : DetailFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DetailViewModel by viewModels()
@@ -26,7 +30,7 @@ class DetailFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = DetailFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,7 +38,7 @@ class DetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         (requireActivity() as MainActivity).hideBottomNav(true)
-        val anime: Anime = requireArguments().getParcelable("anime")!!
+        val anime: Anime = requireArguments().getParcelable(ANIME_DATA)!!
         showDetailAnimeData(anime)
     }
 
