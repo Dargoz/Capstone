@@ -7,12 +7,6 @@
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.dargoz.favorite.ui.FavoriteFragment">
-        <action
-            android:id="@+id/action_favoriteFragment_to_detailFragment2"
-            app:destination="@id/detailFragment2" />
     </fragment>
-    <fragment
-        android:id="@+id/detailFragment2"
-        android:name="com.dargoz.capstone.ui.DetailFragment"
-        android:label="DetailFragment" />
+
 </navigation>
