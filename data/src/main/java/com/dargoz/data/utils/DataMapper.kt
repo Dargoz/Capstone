@@ -1,6 +1,5 @@
 package com.dargoz.data.utils
 
-import android.util.Log
 import com.dargoz.data.source.local.entity.AnimeEntity
 import com.dargoz.data.source.local.entity.MangaEntity
 import com.dargoz.data.source.local.entity.ReviewEntity
