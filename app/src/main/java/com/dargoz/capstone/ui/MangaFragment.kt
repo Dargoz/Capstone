@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.dargoz.capstone.R
 import com.dargoz.capstone.databinding.MangaFragmentBinding
 import com.dargoz.capstone.ui.adapters.MangaListAdapter
 import com.dargoz.capstone.vm.MangaViewModel
@@ -28,7 +30,7 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = MangaFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -57,6 +59,9 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
                     adapter.notifyDataSetChanged()
 
                 }
+                is Resource.Error ->
+                    Toast.makeText(requireContext(),
+                        getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -79,6 +84,9 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
                         adapter.notifyDataSetChanged()
                     }
                 }
+                is Resource.Error ->
+                    Toast.makeText(requireContext(),
+                        getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
             }
         })
     }

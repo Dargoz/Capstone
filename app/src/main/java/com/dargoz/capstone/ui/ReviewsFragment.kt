@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.dargoz.capstone.R
 import com.dargoz.capstone.databinding.ReviewsFragmentBinding
 import com.dargoz.capstone.ui.adapters.ReviewListAdapter
 import com.dargoz.capstone.utils.ActivityHelper
@@ -50,7 +52,9 @@ class ReviewsFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                     }
                 }
-                else -> Log.i("DRG","Empty data..")
+                is Resource.Error ->
+                    Toast.makeText(requireContext(),
+                        getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
             }
         })
 

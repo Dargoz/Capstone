@@ -1,7 +1,6 @@
 package com.dargoz.data.source.remote.responses
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class MangaResponse(
     @field:SerializedName("mal_id")

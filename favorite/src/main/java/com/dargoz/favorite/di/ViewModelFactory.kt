@@ -33,7 +33,6 @@ class GenericSavedStateViewModelFactory<out V : ViewModel>(
  * to the [ViewModel]'s constructor.
  *
  * @param factory instance of [ViewModelFactory] that will be used to construct the [ViewModel]
- * @param owner instance of Fragment or Activity that owns the [ViewModel]
  * @param defaultArgs Bundle with default values to populate the [SavedStateHandle]
  *
  * @see ViewModelFactory

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -81,7 +82,9 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
                         adapter.setAnimeList(anime.data!!)
                         adapter.notifyDataSetChanged()
                     }
-                    is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
+                    is Resource.Error ->
+                        Toast.makeText(requireContext(),
+                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
                 }
             }
         })

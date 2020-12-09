@@ -12,8 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.ui.TestActivity"></activity>
-        <activity android:name=".ui.DetailFavoriteActivity" />
+
         <activity
             android:name=".MainActivity"
             android:configChanges="locale"
@@ -24,6 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ui.DetailFavoriteActivity" />
     </application>
 
 </manifest>

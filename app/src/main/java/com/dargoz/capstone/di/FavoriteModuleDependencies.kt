@@ -1,9 +1,7 @@
 package com.dargoz.capstone.di
 
 import android.app.Application
-import com.dargoz.domain.usecases.FavoriteInteractor
 import com.dargoz.domain.usecases.FavoriteUseCase
-import dagger.Binds
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent

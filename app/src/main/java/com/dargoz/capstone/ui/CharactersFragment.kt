@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.dargoz.capstone.R
 import com.dargoz.capstone.databinding.CharactersFragmentBinding
 import com.dargoz.capstone.ui.adapters.CharacterStaffListAdapter
 import com.dargoz.capstone.utils.ActivityHelper
@@ -29,7 +31,7 @@ class CharactersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = CharactersFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -49,9 +51,9 @@ class CharactersFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                     }
                 }
-                is Resource.Error -> {
-                    Log.v("DRG","error : ${characters.data}")
-                }
+                is Resource.Error ->
+                    Toast.makeText(requireContext(),
+                        getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
             }
         })
     }

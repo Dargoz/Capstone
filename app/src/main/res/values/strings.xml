@@ -44,4 +44,5 @@
     <string name="episode_text">episode :</string>
     <string name="rank_symbol">#</string>
     <string name="icon_content_desc">icon</string>
+    <string name="resource_error_text">error when getting data</string>
 </resources>

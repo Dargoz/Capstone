@@ -20,7 +20,7 @@ class LocaleUtil {
             return setLocale(context, locale)
         }
 
-        fun getPersistedLocale(context: Context?): String? {
+        private fun getPersistedLocale(context: Context?): String? {
             val preferences: SharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(context)
             return preferences.getString(SettingsFragment.KEY_PREF_LANGUAGE, "")
@@ -63,7 +63,7 @@ class LocaleUtil {
         }
 
         @Suppress("DEPRECATION")
-        private fun updateResourcesLegacy(context: Context, locale: Locale): Context? {
+        private fun updateResourcesLegacy(context: Context, locale: Locale): Context {
             val resources: Resources = context.resources
             val configuration: Configuration = resources.configuration
             configuration.locale = locale

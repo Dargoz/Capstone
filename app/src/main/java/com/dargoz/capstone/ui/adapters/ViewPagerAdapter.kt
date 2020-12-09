@@ -32,7 +32,7 @@ class ViewPagerAdapter constructor(val context: Context,
         }
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return when(position) {
             0 -> context.resources.getString(R.string.synopsis_text)
             1 -> context.resources.getString(R.string.info_text)

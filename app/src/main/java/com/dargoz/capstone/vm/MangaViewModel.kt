@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.dargoz.domain.usecases.MangaUseCase
 
-class MangaViewModel @ViewModelInject constructor(private val mangaUseCase: MangaUseCase)
+class MangaViewModel @ViewModelInject constructor(mangaUseCase: MangaUseCase)
     : ViewModel() {
 
     val topManga = mangaUseCase.getTopManga().asLiveData()

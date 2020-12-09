@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.dargoz.capstone.R
 
 import com.dargoz.capstone.databinding.InfoFragmentBinding
 import com.dargoz.capstone.utils.ActivityHelper
@@ -46,7 +48,9 @@ class InfoFragment : Fragment() {
                         showAnimeInformation(animeData.data!!)
 
                     }
-                    else -> Log.d("DRG", "EMPTY / ERROR ${animeData.data!!}")
+                    is Resource.Error ->
+                        Toast.makeText(requireContext(),
+                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
                 }
             }
 

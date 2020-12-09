@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
@@ -35,7 +36,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, SearchListAda
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -70,7 +71,9 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, SearchListAda
                     adapter.setSearchList(anime.data!!)
                     adapter.notifyDataSetChanged()
                 }
-                is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
+                is Resource.Error ->
+                    Toast.makeText(requireContext(),
+                        getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
             }
 
 

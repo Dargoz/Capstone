@@ -6,7 +6,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.dargoz.capstone.di.UseCaseFavoriteQualifier
-import com.dargoz.capstone.di.UseCaseSingletonQualifier
 import com.dargoz.domain.usecases.FavoriteUseCase
 
 class FavoriteViewModel @ViewModelInject constructor(
