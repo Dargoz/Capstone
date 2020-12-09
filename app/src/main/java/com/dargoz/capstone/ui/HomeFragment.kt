@@ -51,15 +51,16 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
         viewModel.topUpcomingAnime.observe(viewLifecycleOwner, { anime ->
             if (anime != null) {
                 when (anime) {
-                    is Resource.Loading -> Log.d("DRG", "Loading...")
+                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
                     is Resource.Success -> {
-                        Log.i("DRG", "Top Success : ${anime.data!!.size}")
                         binding.animeSuggestionLoadingLayout .root.stopShimmer()
                         binding.animeSuggestionLoadingLayout.root.visibility = View.GONE
                         adapter.setAnimeList(anime.data!!)
                         adapter.notifyDataSetChanged()
                     }
-                    is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
+                    is Resource.Error ->
+                        Toast.makeText(requireContext(),
+                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -74,9 +75,8 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
         viewModel.anime.observe(viewLifecycleOwner, { anime ->
             if (anime != null) {
                 when (anime) {
-                    is Resource.Loading -> Log.d("DRG", "Loading...")
+                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
                     is Resource.Success -> {
-                        Log.i("DRG", "Success : ${anime.data!!.size}")
                         binding.currentSeasonLoadingLayout.root.stopShimmer()
                         binding.currentSeasonLoadingLayout.root.visibility = View.GONE
                         adapter.setAnimeList(anime.data!!)
@@ -97,15 +97,16 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
         viewModel.todayAnimeSchedule.observe(viewLifecycleOwner, { anime ->
             if (anime != null) {
                 when (anime) {
-                    is Resource.Loading -> Log.d("DRG", "Loading...")
+                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
                     is Resource.Success -> {
-                        Log.i("DRG", "Today Success : ${anime.data!!.size}")
                         binding.todayEpisodeLoadingLayout .root.stopShimmer()
                         binding.todayEpisodeLoadingLayout.root.visibility = View.GONE
                         adapter.setAnimeList(anime.data!!)
                         adapter.notifyDataSetChanged()
                     }
-                    is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
+                    is Resource.Error ->
+                        Toast.makeText(requireContext(),
+                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
                 }
             }
 

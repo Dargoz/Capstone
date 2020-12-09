@@ -22,6 +22,7 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
     companion object {
         fun newInstance() = MangaFragment()
     }
+
     private var _binding: MangaFragmentBinding? = null
     private val binding get() = _binding!!
 
@@ -48,20 +49,21 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
         viewModel.topManga.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
-                    Log.i("DRG", "Loading... ${javaClass.simpleName}")
+                    Log.i("DRG", "${getString(R.string.loading_text)} ${javaClass.simpleName}")
                 }
                 is Resource.Success -> {
                     val mangaList = it.data
                     binding.topMangaLoadingLayout.root.stopShimmer()
                     binding.topMangaLoadingLayout.root.visibility = View.GONE
-                    Log.v("DRG","mangaList : ${mangaList.toString()}")
                     adapter.setMangaList(mangaList!!)
                     adapter.notifyDataSetChanged()
 
                 }
                 is Resource.Error ->
-                    Toast.makeText(requireContext(),
-                        getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.resource_error_text), Toast.LENGTH_LONG
+                    ).show()
             }
         })
     }
@@ -73,7 +75,10 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
         viewModel.topManhwa.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
-                    Log.i("DRG", "Loading... ${javaClass.simpleName}")
+                    Log.i(
+                        "DRG",
+                        "${getString(R.string.loading_text)} ${javaClass.simpleName}"
+                    )
                 }
                 is Resource.Success -> {
                     val mangaList = it.data
@@ -85,21 +90,23 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
                     }
                 }
                 is Resource.Error ->
-                    Toast.makeText(requireContext(),
-                        getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.resource_error_text), Toast.LENGTH_LONG
+                    ).show()
             }
         })
     }
 
     override fun onItemClick(manga: Manga) {
-        //do nothing
+        Toast.makeText(requireContext(),
+            "Detail Manga Page Coming Soon!", Toast.LENGTH_LONG).show()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 
 
 }

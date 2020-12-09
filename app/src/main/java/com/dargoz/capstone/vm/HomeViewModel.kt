@@ -17,7 +17,9 @@ class HomeViewModel @ViewModelInject constructor(animeUseCase: AnimeUseCase) : V
 
     fun setCurrentSeasonTitle(): String {
         val calendar = Calendar.getInstance()
-        return "${SeasonNameUtil.generateSeasonName(calendar)} ${calendar[Calendar.YEAR]} Anime"
+        val seasonName = SeasonNameUtil.generateSeasonName(calendar)
+        val year = calendar[Calendar.YEAR]
+        return "$seasonName ${if(seasonName == "Winter") year + 1 else year} Anime"
     }
 
 

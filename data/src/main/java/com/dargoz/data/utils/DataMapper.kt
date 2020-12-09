@@ -54,11 +54,8 @@ object DataMapper {
         subtype: String = "",
     ): List<AnimeEntity> {
         val animeEntities = ArrayList<AnimeEntity>()
-        Log.v("DRG", "result : ${animeList[0].id}")
         var index = 0
         animeList.map {
-            Log.v("DRG", "result : ${it.id}")
-
             val tempIsFavorite = try {
                 cache?.get(index++)?.isFavorite ?: false
             } catch (e: Exception) {

@@ -61,13 +61,11 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, SearchListAda
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
-        Log.i("DRG","onQueryTextSubmit : $query")
+
         viewModel.searchAnime(query!!).observe(viewLifecycleOwner, { anime ->
             when(anime) {
-                is Resource.Loading -> Log.d("DRG", "Loading...")
+                is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
                 is Resource.Success -> {
-                    Log.i("DRG", "Top Success : ${anime.data!!.size}")
-
                     adapter.setSearchList(anime.data!!)
                     adapter.notifyDataSetChanged()
                 }

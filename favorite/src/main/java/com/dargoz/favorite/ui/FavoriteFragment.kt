@@ -70,7 +70,6 @@ class FavoriteFragment : Fragment(), AnimeListAdapter.OnClick {
         adapter.setOnItemClickListener(this)
         binding.favoriteListRcView.adapter = adapter
         viewModel.favoriteAnimeList.observe(viewLifecycleOwner, {
-            Log.i("DRG","favorite list : $it")
             if(it.isEmpty()) {
                 binding.emptyFavoriteTextView.visibility = View.VISIBLE
             } else {

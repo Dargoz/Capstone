@@ -67,7 +67,6 @@ class DataRepositoryImpl @Inject constructor(
 
             override suspend fun shouldFetch(data: Anime?): Boolean {
                 return if (data != null) {
-                    Log.v("DRG", "opening theme : ${data.openingThemes}")
                     data.openingThemes == null
                 } else {
                     true
@@ -75,7 +74,6 @@ class DataRepositoryImpl @Inject constructor(
             }
 
             override suspend fun saveCallResult(data: AnimeResponse, cache: Anime?) {
-                Log.v("DRG", "save call result : $data ::: ${cache!!.id}")
                 localDataSource.updateAnime(DataMapper.mapResponseToEntity(data, cache))
             }
 
@@ -94,7 +92,6 @@ class DataRepositoryImpl @Inject constructor(
             }
 
             override suspend fun shouldFetch(data: List<Characters>?): Boolean {
-                Log.v("DRG", "opening theme : $data")
                 return data == null
             }
 

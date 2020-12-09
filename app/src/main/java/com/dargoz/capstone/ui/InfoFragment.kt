@@ -42,9 +42,8 @@ class InfoFragment : Fragment() {
         viewModel.animeData(anime.malId).observe(viewLifecycleOwner, { animeData ->
             if(animeData != null) {
                 when(animeData) {
-                    is Resource.Loading -> Log.i("DRG","Loading..")
+                    is Resource.Loading -> Log.i("DRG", getString(R.string.loading_text))
                     is Resource.Success -> {
-                        Log.d("DRG", "data ${animeData.data!!}")
                         showAnimeInformation(animeData.data!!)
 
                     }

@@ -74,7 +74,6 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
             try {
                 val response = apiService.getAnimeReviews(animeId)
                 val data = response.reviews
-                Log.d("DRG", "characters : $data")
                 if (data.isNotEmpty()) {
                     emit(ApiResponse.Success(data))
                 } else {
@@ -93,7 +92,6 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
             try {
                 val response = apiService.getAnimeSchedule(day)
                 val data = ResponseHelper.getTodayField(day, response)
-                Log.d("DRG", "$day data : $data")
                 if (data.isNotEmpty()) {
                     emit(ApiResponse.Success(data))
                 } else {
@@ -110,7 +108,6 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
         try {
             val response = apiService.getTopList(type, page, subtype)
             val data = response.top
-            Log.d("DRG", "$type $subtype data : $data")
             if (data.isNotEmpty()) {
                 emit(ApiResponse.Success(data))
             } else {
@@ -125,11 +122,9 @@ class RemoteDataSource @Inject constructor(private val apiService: ApiService) {
     fun getMangaTopList(type: String, page: Int, subtype: String)
             : Flow<ApiResponse<List<MangaResponse>>> = flow {
         try {
-            Log.d("DRG", "$type $subtype")
             val response = apiService.getTopMangaList(type, page, subtype)
-            Log.d("DRG", "response $type $subtype")
             val data = response.top
-            Log.d("DRG", "$type $subtype data : $data")
+
             if (data.isNotEmpty()) {
                 emit(ApiResponse.Success(data))
             } else {
