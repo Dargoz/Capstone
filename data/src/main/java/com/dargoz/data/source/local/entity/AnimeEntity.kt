@@ -38,7 +38,7 @@ data class AnimeEntity constructor(
 
     val members: Long?,
 
-    val genres: List<Genre>,
+    val genres: List<Genre>?,
 
     val characters: List<Characters>?,
 

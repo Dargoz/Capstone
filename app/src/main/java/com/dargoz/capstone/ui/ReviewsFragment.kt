@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.dargoz.capstone.databinding.ReviewsFragmentBinding
 import com.dargoz.capstone.ui.adapters.ReviewListAdapter
+import com.dargoz.capstone.utils.ActivityHelper
 import com.dargoz.capstone.vm.ReviewsViewModel
 import com.dargoz.domain.Resource
 import com.dargoz.domain.models.Anime
@@ -29,7 +30,7 @@ class ReviewsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = ReviewsFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -38,7 +39,7 @@ class ReviewsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val adapter = ReviewListAdapter()
         binding.animeReviewRcView.adapter = adapter
-        val anime : Anime = requireParentFragment().requireArguments().getParcelable("anime")!!
+        val anime: Anime = ActivityHelper.getAnimeResource(this)
         viewModel.animeReviews(anime.malId).observe(viewLifecycleOwner, { reviews ->
             when(reviews) {
                 is Resource.Loading -> Log.i("DRG","Loading Review data..")
@@ -49,6 +50,7 @@ class ReviewsFragment : Fragment() {
                         adapter.notifyDataSetChanged()
                     }
                 }
+                else -> Log.i("DRG","Empty data..")
             }
         })
 

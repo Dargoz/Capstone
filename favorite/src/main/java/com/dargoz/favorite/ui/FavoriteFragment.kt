@@ -1,5 +1,6 @@
 package com.dargoz.favorite.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.dargoz.capstone.R
 import com.dargoz.capstone.di.FavoriteModuleDependencies
 import com.dargoz.capstone.ui.DetailFragment
 import com.dargoz.capstone.ui.adapters.AnimeListAdapter
@@ -22,9 +22,7 @@ import javax.inject.Inject
 
 class FavoriteFragment : Fragment(), AnimeListAdapter.OnClick {
 
-    companion object {
-        fun newInstance() = FavoriteFragment()
-    }
+
     private var _binding: FavoriteFragmentBinding? = null
     private val binding get() = _binding!!
     private lateinit var navController: NavController
@@ -90,9 +88,9 @@ class FavoriteFragment : Fragment(), AnimeListAdapter.OnClick {
     }
 
     override fun onItemClick(anime: Anime) {
-        val bundle = Bundle()
-        bundle.putParcelable(DetailFragment.ANIME_DATA, anime)
-        navController.navigate(R.id.action_favoriteFragment_to_detailFragment2, bundle)
+        val intent = Intent(activity, Class.forName("com.dargoz.capstone.ui.DetailFavoriteActivity"))
+        intent.putExtra(DetailFragment.ANIME_DATA, anime)
+        startActivity(intent)
     }
 
 }

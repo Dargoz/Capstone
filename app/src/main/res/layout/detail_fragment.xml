@@ -45,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/image_poster_content_desc"
+            android:scaleType="centerCrop"
             android:src="@color/colorPrimaryDark"/>
     </com.google.android.material.card.MaterialCardView>
 
@@ -97,6 +98,43 @@
         app:layout_constraintTop_toTopOf="@id/score_icon"
         app:layout_constraintBottom_toBottomOf="@id/score_icon"
         tools:text="9.8"/>
+
+    <ImageView
+        android:id="@+id/popularity_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/anime_title"
+        app:layout_constraintStart_toEndOf="@id/anime_score"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/icon_content_desc"
+        android:textColor="@color/colorAccent"
+        android:src="@drawable/ic_trending_up_24px"/>
+
+    <TextView
+        android:id="@+id/rank_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/anime_title"
+        app:layout_constraintStart_toEndOf="@id/popularity_icon"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold|italic"
+        android:textSize="16sp"
+        android:textColor="@color/colorAccent"
+        android:text="@string/rank_symbol"/>
+
+    <TextView
+        android:id="@+id/anime_popularity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/anime_title"
+        app:layout_constraintStart_toEndOf="@id/rank_icon"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@color/colorAccent"
+        tools:text="1"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/content_tab_layout"

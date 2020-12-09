@@ -81,7 +81,7 @@ object DataMapper {
                 popularity = it.popularity,
                 members = it.members,
                 score = it.score,
-                genres = mapResponseToModel(it.genres),
+                genres = if(it.genres == null) null else mapResponseToModel(it.genres),
                 characters = null,
                 openingThemes = it.openingThemes,
                 endingThemes = it.endingThemes,
@@ -191,13 +191,16 @@ object DataMapper {
             characters = animeEntity.characters,
             openingThemes = animeEntity.openingThemes,
             endingThemes = animeEntity.endingThemes,
+            seasonName = animeEntity.seasonName,
+            seasonYear = animeEntity.seasonYear,
+            releaseDay = animeEntity.releaseDay,
             isFavorite = animeEntity.isFavorite
         )
     }
 
-    fun mapResponseToEntity(data: AnimeResponse, cacheId: Long?): AnimeEntity {
+    fun mapResponseToEntity(data: AnimeResponse, cache: Anime?): AnimeEntity {
         return AnimeEntity(
-            id = cacheId,
+            id = cache?.id,
             malId = data.id,
             title = data.title,
             titleEnglish = data.titleEnglish,
@@ -213,11 +216,14 @@ object DataMapper {
             popularity = data.popularity,
             members = data.members,
             score = data.score,
-            genres = mapResponseToModel(data.genres),
+            genres = if (data.genres == null) null else mapResponseToModel(data.genres),
             characters = null,
             openingThemes = data.openingThemes,
             endingThemes = data.endingThemes,
-            isFavorite = false
+            seasonName = cache!!.seasonName,
+            seasonYear = cache.seasonYear,
+            releaseDay = cache.releaseDay,
+            isFavorite = cache.isFavorite
         )
     }
 

@@ -43,4 +43,6 @@
     <string name="type_text">type :</string>
     <string name="score_text">score :</string>
     <string name="episode_text">episode :</string>
+    <string name="rank_symbol">#</string>
+    <string name="icon_content_desc">icon</string>
 </resources>

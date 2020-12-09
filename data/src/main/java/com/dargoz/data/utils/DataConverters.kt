@@ -12,10 +12,10 @@ import java.util.*
 class DataConverters {
 
     @TypeConverter
-    fun fromListGenreToJson(genres: List<Genre>): String = Gson().toJson(genres)
+    fun fromListGenreToJson(genres: List<Genre>?): String = if(genres == null) "" else Gson().toJson(genres)
 
     @TypeConverter
-    fun fromJsonToListGenre(json: String): List<Genre> = Gson().fromJson(json,
+    fun fromJsonToListGenre(json: String): List<Genre>? = Gson().fromJson(json,
         object : TypeToken<List<Genre>>() {}.type
     )
 

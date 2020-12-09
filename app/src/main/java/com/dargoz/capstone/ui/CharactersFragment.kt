@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dargoz.capstone.databinding.CharactersFragmentBinding
 import com.dargoz.capstone.ui.adapters.CharacterStaffListAdapter
+import com.dargoz.capstone.utils.ActivityHelper
 import com.dargoz.capstone.vm.CharactersViewModel
 import com.dargoz.domain.Resource
 import com.dargoz.domain.models.Anime
@@ -37,7 +38,7 @@ class CharactersFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val adapter = CharacterStaffListAdapter()
         binding.animeCharacterRcView.adapter = adapter
-        val anime : Anime = requireParentFragment().requireArguments().getParcelable("anime")!!
+        val anime: Anime = ActivityHelper.getAnimeResource(this)
         viewModel.animeCharactersAndStaff(anime.malId).observe(viewLifecycleOwner, { characters ->
             when(characters) {
                 is Resource.Loading -> Log.i("DRG","Loading Characters...")

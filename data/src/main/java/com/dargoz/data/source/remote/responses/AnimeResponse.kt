@@ -49,7 +49,7 @@ data class AnimeResponse (
     val members: Long,
 
     @field:SerializedName("genres")
-    val genres: List<GenreResponse>,
+    val genres: List<GenreResponse>?,
 
     @field:SerializedName("opening_themes")
     val openingThemes: List<String>,

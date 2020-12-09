@@ -41,4 +41,6 @@ class LocalDataSource @Inject constructor(private val animeDao: AnimeDao,
 
     fun updateAnimeFavoriteFlag(animeId: Long, isFavorite: Boolean) = animeDao.updateAnimeFavorite(animeId, isFavorite)
 
+    fun searchAnime(queryString: String) = animeDao.searchAnime(queryString)
+
 }

@@ -76,7 +76,7 @@ class DataRepositoryImpl @Inject constructor(
 
             override suspend fun saveCallResult(data: AnimeResponse, cache: Anime?) {
                 Log.v("DRG", "save call result : $data ::: ${cache!!.id}")
-                localDataSource.updateAnime(DataMapper.mapResponseToEntity(data, cache.id))
+                localDataSource.updateAnime(DataMapper.mapResponseToEntity(data, cache))
             }
 
         }.asFlow()
@@ -215,18 +215,25 @@ class DataRepositoryImpl @Inject constructor(
         }.asFlow()
 
     override fun getSearchData(type: String, queryString: String, pageNumber: Int)
-    : Flow<Resource<List<Anime>>> = flow {
-            when (val apiResponse = remoteDataSource
-                .getSearch(type, queryString, pageNumber).first()) {
-                is ApiResponse.Success -> {
-                    emit(Resource.Success(apiResponse.data.map {
-                        DataMapper.mapAnimeResponseToDomain(it)
-                    }))
-                }
-                is ApiResponse.Error -> {
-                    emit(Resource.Error<List<Anime>>(apiResponse.errorMessage))
-                }
-            }
-
+    : Flow<Resource<List<Anime>>> = object : NetworkBoundResource<List<Anime>, List<AnimeResponse>>() {
+        override suspend fun createCall(): Flow<ApiResponse<List<AnimeResponse>>> {
+            return remoteDataSource.getSearch(type, queryString, pageNumber)
         }
+
+        override suspend fun loadFromDB(): Flow<List<Anime>> =
+             localDataSource.searchAnime("%$queryString%").map {
+                DataMapper.mapEntitiesToDomain(it)
+             }
+
+        override suspend fun shouldFetch(data: List<Anime>?): Boolean {
+            return true
+        }
+
+        override suspend fun saveCallResult(data: List<AnimeResponse>, cache: List<Anime>?) {
+            localDataSource.insertAllAnime(
+                DataMapper.mapResponseToEntities(data, cache)
+            )
+        }
+
+    }.asFlow()
 }

@@ -35,4 +35,7 @@ interface AnimeDao {
     @Query("SELECT * FROM anime WHERE status=:subtype")
     fun getListAnimeOf(subtype: String): Flow<List<AnimeEntity>>
 
+    @Query("SELECT * FROM anime WHERE title like :queryString")
+    fun searchAnime(queryString : String): Flow<List<AnimeEntity>>
+
 }
