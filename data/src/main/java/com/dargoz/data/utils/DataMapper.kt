@@ -1,15 +1,12 @@
 package com.dargoz.data.utils
 
-import android.util.Log
 import com.dargoz.data.source.local.entity.AnimeEntity
-import com.dargoz.data.source.remote.responses.AnimeResponse
-import com.dargoz.data.source.remote.responses.CharacterResponse
-import com.dargoz.data.source.remote.responses.GenreResponse
-import com.dargoz.data.source.remote.responses.VoiceActorResponse
-import com.dargoz.domain.models.Anime
-import com.dargoz.domain.models.Characters
-import com.dargoz.domain.models.Genre
-import com.dargoz.domain.models.VoiceActor
+import com.dargoz.data.source.local.entity.MangaEntity
+import com.dargoz.data.source.local.entity.ReviewEntity
+import com.dargoz.data.source.remote.responses.*
+import com.dargoz.domain.models.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 object DataMapper {
 
@@ -46,11 +43,24 @@ object DataMapper {
         return animeList
     }
 
-    fun mapResponseToEntities(animeList: List<AnimeResponse>): List<AnimeEntity> {
+
+    fun mapResponseToEntities(
+        animeList: List<AnimeResponse>,
+        cache: List<Anime>?,
+        seasonName: String = "",
+        year: Int = 0,
+        day: String = "",
+        subtype: String = "",
+    ): List<AnimeEntity> {
         val animeEntities = ArrayList<AnimeEntity>()
-        Log.v("DRG","result : ${animeList[0].id}")
+        var index = 0
         animeList.map {
-            Log.v("DRG","result : ${it.id}")
+            val tempIsFavorite = try {
+                cache?.get(index++)?.isFavorite ?: false
+            } catch (e: Exception) {
+                false
+            }
+
             val animeEntity = AnimeEntity(
                 malId = it.id,
                 title = it.title,
@@ -60,47 +70,25 @@ object DataMapper {
                 synopsis = it.synopsis,
                 type = it.type,
                 source = it.source,
-                status = it.status,
+                status = subtype.ifEmpty { it.status },
                 episodes = it.episodes,
                 duration = it.duration,
                 rating = it.rating,
                 popularity = it.popularity,
                 members = it.members,
                 score = it.score,
-                genres = mapResponseToModel(it.genres),
+                genres = if(it.genres == null) null else mapResponseToModel(it.genres),
                 characters = null,
                 openingThemes = it.openingThemes,
                 endingThemes = it.endingThemes,
-                isFavorite = false
+                isFavorite = tempIsFavorite,
+                seasonName = seasonName,
+                seasonYear = year,
+                releaseDay = day,
             )
             animeEntities.add(animeEntity)
         }
         return animeEntities
-    }
-
-    private fun mapDomainToEntity(anime: Anime): AnimeEntity {
-        return AnimeEntity(
-            malId = anime.id,
-            title = anime.title,
-            titleEnglish = anime.titleEnglish,
-            titleJapanese = anime.titleJapanese,
-            imageUrl = anime.imageUrl,
-            synopsis = anime.synopsis,
-            type = anime.type,
-            source = anime.source,
-            status = anime.status,
-            episodes = anime.episodes,
-            duration = anime.duration,
-            rating = anime.rating,
-            popularity = anime.popularity,
-            members = anime.members,
-            score = anime.score,
-            genres = anime.genres,
-            characters = anime.characters,
-            openingThemes = anime.openingThemes,
-            endingThemes = anime.endingThemes,
-            isFavorite = anime.isFavorite
-        )
     }
 
     private fun mapResponseToModel(genreResponses: List<GenreResponse>): List<Genre> {
@@ -115,6 +103,34 @@ object DataMapper {
             genreList.add(genre)
         }
         return genreList
+    }
+
+    fun mapTopAnimeResponseToAnimeResponse(topAnimeResponse: List<TopAnimeResponse>) : List<AnimeResponse> {
+        val animeResponseList = ArrayList<AnimeResponse>()
+        topAnimeResponse.map {
+            val animeResponse = AnimeResponse(
+                id = it.malId,
+                title = it.title,
+                imageUrl = it.imageUrl,
+                members =  it.members,
+                type =  it.type,
+                score = 0.0,
+                titleJapanese = "",
+                titleEnglish = "",
+                status = "",
+                source = "",
+                synopsis = "",
+                duration = "",
+                episodes = 0,
+                popularity = 0,
+                rating = "",
+                genres = ArrayList(),
+                endingThemes = ArrayList(),
+                openingThemes = ArrayList(),
+            )
+            animeResponseList.add(animeResponse)
+        }
+        return animeResponseList
     }
 
     fun mapResponseToModelChar(characterResponse: List<CharacterResponse>): List<Characters> {
@@ -133,7 +149,8 @@ object DataMapper {
         return charactersList
     }
 
-    fun mapVoiceActorResponseToModel(voiceActorResponse: List<VoiceActorResponse>): List<VoiceActor> {
+    private fun mapVoiceActorResponseToModel(voiceActorResponse: List<VoiceActorResponse>)
+            : List<VoiceActor> {
         val voiceActorList = ArrayList<VoiceActor>()
         voiceActorResponse.map {
             val voiceActor = VoiceActor(
@@ -170,13 +187,16 @@ object DataMapper {
             characters = animeEntity.characters,
             openingThemes = animeEntity.openingThemes,
             endingThemes = animeEntity.endingThemes,
+            seasonName = animeEntity.seasonName,
+            seasonYear = animeEntity.seasonYear,
+            releaseDay = animeEntity.releaseDay,
             isFavorite = animeEntity.isFavorite
         )
     }
 
-    fun mapResponseToEntity(data: AnimeResponse, cacheId: Long?): AnimeEntity {
+    fun mapResponseToEntity(data: AnimeResponse, cache: Anime?): AnimeEntity {
         return AnimeEntity(
-            id = cacheId,
+            id = cache?.id,
             malId = data.id,
             title = data.title,
             titleEnglish = data.titleEnglish,
@@ -192,15 +212,119 @@ object DataMapper {
             popularity = data.popularity,
             members = data.members,
             score = data.score,
-            genres = mapResponseToModel(data.genres),
+            genres = if (data.genres == null) null else mapResponseToModel(data.genres),
             characters = null,
             openingThemes = data.openingThemes,
             endingThemes = data.endingThemes,
-            isFavorite = false
+            seasonName = cache!!.seasonName,
+            seasonYear = cache.seasonYear,
+            releaseDay = cache.releaseDay,
+            isFavorite = cache.isFavorite
         )
     }
 
     fun mapEntitiesToCharactersDomain(it: AnimeEntity): List<Characters>? {
         return it.characters
     }
+
+    fun mapEntitiesToDomainReview(reviewEntities: List<ReviewEntity>): List<Review> {
+        val reviewList = ArrayList<Review>()
+        reviewEntities.map {
+            val review = Review(
+                id = it.malId,
+                malId = it.malId,
+                animeId = it.animeId,
+                url = it.url,
+                type = it.type,
+                helpfulCount = it.helpfulCount,
+                date = it.date,
+                reviewer = it.reviewer,
+                content = it.content,
+            )
+            reviewList.add(review)
+        }
+        return reviewList
+    }
+
+    fun mapReviewResponseToEntities(animeId: Long, data: List<ReviewResponse>): List<ReviewEntity> {
+        val reviewEntities = ArrayList<ReviewEntity>()
+        data.map {
+            val reviewEntity = ReviewEntity(
+                malId = it.malId,
+                animeId = animeId,
+                url = it.url,
+                type = it.type,
+                helpfulCount = it.helpfulCount,
+                date = it.date,
+                reviewer = mapReviewResponseToModel(it.reviewer),
+                content = it.content,
+            )
+            reviewEntities.add(reviewEntity)
+        }
+        return reviewEntities
+    }
+
+    private fun mapReviewResponseToModel(reviewer: ReviewerResponse): Reviewer {
+        return Reviewer(
+            url = reviewer.url,
+            imageUrl = reviewer.imageUrl,
+            username = reviewer.username,
+            episodeSeen = reviewer.episodeSeen,
+            scores = mapScoreResponseToModel(reviewer.scores)
+        )
+    }
+
+    private fun mapScoreResponseToModel(scores: ScoreResponse): Score {
+        return Score(
+            overall = scores.overall,
+            story = scores.story,
+            animation = scores.animation,
+            sound = scores.sound,
+            character = scores.character,
+            enjoyment = scores.enjoyment
+        )
+    }
+
+    fun mapMangaEntitiesToDomain(it: List<MangaEntity>): List<Manga> {
+        val mangaList = ArrayList<Manga>()
+        it.map {
+            val manga = Manga(
+                id = it.id!!,
+                malId = it.malId,
+                rank = it.rank,
+                title = it.title,
+                url = it.url,
+                type = it.type.toLowerCase(Locale.ROOT),
+                volume = it.volume,
+                startDate = it.startDate,
+                members = it.members,
+                score = it.score,
+                imageUrl = it.imageUrl
+            )
+            mangaList.add(manga)
+        }
+        return mangaList
+    }
+
+    fun mapMangaResponseToEntities(data: List<MangaResponse>): List<MangaEntity> {
+        val mangaEntities = ArrayList<MangaEntity>()
+        data.map {
+            val mangaEntity = MangaEntity(
+                malId = it.malId,
+                rank = it.rank,
+                title = it.title,
+                url = it.url,
+                type = it.type.toLowerCase(Locale.ROOT),
+                volume = it.volume,
+                startDate = it.startDate,
+                members = it.members,
+                score = it.score,
+                imageUrl = it.imageUrl
+            )
+            mangaEntities.add(mangaEntity)
+        }
+        return mangaEntities
+    }
+
+
 }

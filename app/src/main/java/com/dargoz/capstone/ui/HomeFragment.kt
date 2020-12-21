@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -28,7 +29,7 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = HomeFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -36,35 +37,85 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        showCurrentSeasonAnimeList()
+        showTopUpcomingAnimeList()
+        showTodayAnimeList()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+
+
+    private fun showTopUpcomingAnimeList() {
+        val adapter = AnimeListAdapter()
+        adapter.setOnItemClickListener(this)
+        binding.animeSuggestionRcView.adapter = adapter
+        viewModel.topUpcomingAnime.observe(viewLifecycleOwner, { anime ->
+            if (anime != null) {
+                when (anime) {
+                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
+                    is Resource.Success -> {
+                        binding.animeSuggestionLoadingLayout .root.stopShimmer()
+                        binding.animeSuggestionLoadingLayout.root.visibility = View.GONE
+                        adapter.setAnimeList(anime.data!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                    is Resource.Error ->
+                        Toast.makeText(requireContext(),
+                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
+                }
+            }
+
+        })
+    }
+
+    private fun showCurrentSeasonAnimeList() {
         val adapter = AnimeListAdapter()
         adapter.setOnItemClickListener(this)
         binding.currentSeasonTitle.text = viewModel.setCurrentSeasonTitle()
         binding.currentSeasonRcView.adapter = adapter
         viewModel.anime.observe(viewLifecycleOwner, { anime ->
-            if(anime != null) {
-                when(anime) {
-                    is Resource.Loading -> Log.d("DRG", "Loading...")
+            if (anime != null) {
+                when (anime) {
+                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
                     is Resource.Success -> {
-                        Log.i("DRG", "Success : ${anime.data!!.size}")
                         binding.currentSeasonLoadingLayout.root.stopShimmer()
                         binding.currentSeasonLoadingLayout.root.visibility = View.GONE
                         adapter.setAnimeList(anime.data!!)
                         adapter.notifyDataSetChanged()
                     }
-                    is Resource.Error -> Log.w("DRG", "Error : ${anime.message}")
+                    is Resource.Error ->
+                        Toast.makeText(requireContext(),
+                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
                 }
             }
         })
+    }
 
+    private fun showTodayAnimeList() {
+        val adapter = AnimeListAdapter()
+        adapter.setOnItemClickListener(this)
+        binding.todayEpisodeRcView.adapter = adapter
+        viewModel.todayAnimeSchedule.observe(viewLifecycleOwner, { anime ->
+            if (anime != null) {
+                when (anime) {
+                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
+                    is Resource.Success -> {
+                        binding.todayEpisodeLoadingLayout .root.stopShimmer()
+                        binding.todayEpisodeLoadingLayout.root.visibility = View.GONE
+                        adapter.setAnimeList(anime.data!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                    is Resource.Error ->
+                        Toast.makeText(requireContext(),
+                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
+                }
+            }
+
+        })
     }
 
     override fun onItemClick(anime: Anime) {
         val bundle = Bundle()
-        bundle.putParcelable("anime", anime)
+        bundle.putParcelable(DetailFragment.ANIME_DATA, anime)
         navController.navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 

@@ -11,8 +11,8 @@ interface AnimeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllAnime(animeEntities: List<AnimeEntity>)
 
-    @Query("SELECT * FROM anime")
-    fun getAllAnime(): Flow<List<AnimeEntity>>
+    @Query("SELECT * FROM anime WHERE seasonYear=:year AND seasonName=:seasonName")
+    fun getAllAnimeSeason(year: Int, seasonName: String): Flow<List<AnimeEntity>>
 
     @Query("SELECT * FROM anime WHERE malId=:malId")
     fun getAnimeByMalId(malId: Long): Flow<AnimeEntity>
@@ -25,5 +25,17 @@ interface AnimeDao {
 
     @Query("UPDATE anime SET characters=:characters WHERE malId=:malId")
     suspend fun updateAnimeCharacters(malId: Long, characters: List<Characters>)
+
+    @Query("UPDATE anime SET isFavorite=:isFavorite WHERE malId=:malId")
+    fun updateAnimeFavorite(malId: Long, isFavorite: Boolean)
+
+    @Query("SELECT * FROM anime WHERE releaseDay=:day")
+    fun getAllTodayAnime(day: String): Flow<List<AnimeEntity>>
+
+    @Query("SELECT * FROM anime WHERE status=:subtype")
+    fun getListAnimeOf(subtype: String): Flow<List<AnimeEntity>>
+
+    @Query("SELECT * FROM anime WHERE title like :queryString")
+    fun searchAnime(queryString : String): Flow<List<AnimeEntity>>
 
 }

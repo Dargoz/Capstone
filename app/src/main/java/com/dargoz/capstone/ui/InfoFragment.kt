@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import com.dargoz.capstone.R
 
 import com.dargoz.capstone.databinding.InfoFragmentBinding
+import com.dargoz.capstone.utils.ActivityHelper
 import com.dargoz.capstone.vm.InfoViewModel
 import com.dargoz.domain.Resource
 import com.dargoz.domain.models.Anime
@@ -28,23 +31,25 @@ class InfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = InfoFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val anime : Anime = requireParentFragment().requireArguments().getParcelable("anime")!!
+        val anime: Anime = ActivityHelper.getAnimeResource(this)
         viewModel.animeData(anime.malId).observe(viewLifecycleOwner, { animeData ->
             if(animeData != null) {
                 when(animeData) {
-                    is Resource.Loading -> Log.i("DRG","Loading..")
+                    is Resource.Loading -> Log.i("DRG", getString(R.string.loading_text))
                     is Resource.Success -> {
-                        Log.d("DRG", "data ${animeData.data!!}")
                         showAnimeInformation(animeData.data!!)
 
                     }
+                    is Resource.Error ->
+                        Toast.makeText(requireContext(),
+                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -52,6 +57,7 @@ class InfoFragment : Fragment() {
     }
 
     private fun showAnimeInformation(anime: Anime) {
+        (requireParentFragment() as DetailFragment).updatePopularityData(anime.popularity)
         binding.infoJapaneseTitleValue.text = anime.titleJapanese
         binding.infoTypeValue.text = anime.type
         binding.infoEpisodesValue.text = anime.episodes.toString()

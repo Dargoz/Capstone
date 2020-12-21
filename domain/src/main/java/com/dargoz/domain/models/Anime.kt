@@ -37,13 +37,19 @@ data class Anime(
 
     val members: Long?,
 
-    val genres: List<Genre>,
+    val genres: List<Genre>?,
 
     val characters: List<Characters>?,
 
     val openingThemes: List<String>?,
 
     val endingThemes: List<String>?,
+
+    var seasonName: String = "",
+
+    var seasonYear: Int = -1,
+
+    var releaseDay: String = "",
 
     val isFavorite: Boolean = false,
 

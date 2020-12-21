@@ -1,6 +1,5 @@
 package com.dargoz.data.source.local.entity
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
@@ -39,7 +38,7 @@ data class AnimeEntity constructor(
 
     val members: Long?,
 
-    val genres: List<Genre>,
+    val genres: List<Genre>?,
 
     val characters: List<Characters>?,
 
@@ -49,6 +48,14 @@ data class AnimeEntity constructor(
 
     val isFavorite: Boolean,
 
+    var seasonName: String = "",
+
+    var seasonYear: Int = -1,
+
+    var releaseDay: String = "",
+
     @PrimaryKey(autoGenerate = true)
-    var id: Long? = null
+    var id: Long? = null,
+
+
 )
