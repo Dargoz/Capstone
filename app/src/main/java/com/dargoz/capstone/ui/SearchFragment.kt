@@ -1,7 +1,6 @@
 package com.dargoz.capstone.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -32,6 +31,7 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, SearchListAda
     private val viewModel: SearchViewModel by viewModels()
     private lateinit var navController: NavController
     private lateinit var adapter: SearchListAdapter
+    private var firstSubmit = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,20 +62,33 @@ class SearchFragment : Fragment(), SearchView.OnQueryTextListener, SearchListAda
 
     override fun onQueryTextSubmit(query: String?): Boolean {
 
-        viewModel.searchAnime(query!!).observe(viewLifecycleOwner, { anime ->
-            when(anime) {
-                is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
-                is Resource.Success -> {
-                    adapter.setSearchList(anime.data!!)
-                    adapter.notifyDataSetChanged()
+        val result = viewModel.searchAnime(query!!)
+        if(firstSubmit) {
+            firstSubmit = false
+            result.observe(viewLifecycleOwner, { anime ->
+                when(anime) {
+                    is Resource.Loading -> {
+                        binding.searchErrorText.visibility = View.GONE
+                        binding.searchLottieAnimation.visibility = View.GONE
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.loading_text),
+                            Toast.LENGTH_LONG).show()
+                    }
+                    is Resource.Success -> {
+                        adapter.setSearchList(anime.data!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                    is Resource.Error -> {
+                        binding.searchErrorText.visibility = View.VISIBLE
+                        binding.searchLottieAnimation.visibility = View.VISIBLE
+                    }
                 }
-                is Resource.Error ->
-                    Toast.makeText(requireContext(),
-                        getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
-            }
 
 
-        })
+            })
+        }
+
         return true
     }
 

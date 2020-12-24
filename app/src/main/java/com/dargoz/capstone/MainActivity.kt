@@ -28,9 +28,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setActionBar() {
-        supportActionBar!!.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
-        supportActionBar!!.setCustomView(R.layout.action_bar_layout)
-        supportActionBar!!.elevation = 0.0F
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM
+        supportActionBar?.setCustomView(R.layout.action_bar_layout)
+        supportActionBar?.elevation = 0.0F
     }
 
     private fun setViewFunctionality() {

@@ -1,7 +1,6 @@
 package com.dargoz.capstone.ui
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +23,7 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
     private var _binding: HomeFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var navController: NavController
+    private var navController: NavController? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +50,10 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
         viewModel.topUpcomingAnime.observe(viewLifecycleOwner, { anime ->
             if (anime != null) {
                 when (anime) {
-                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
+                    is Resource.Loading -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.loading_text),
+                        Toast.LENGTH_SHORT).show()
                     is Resource.Success -> {
                         binding.animeSuggestionLoadingLayout .root.stopShimmer()
                         binding.animeSuggestionLoadingLayout.root.visibility = View.GONE
@@ -60,7 +62,7 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
                     }
                     is Resource.Error ->
                         Toast.makeText(requireContext(),
-                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
+                            getString(R.string.resource_error_text), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -75,7 +77,10 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
         viewModel.anime.observe(viewLifecycleOwner, { anime ->
             if (anime != null) {
                 when (anime) {
-                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
+                    is Resource.Loading -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.loading_text),
+                        Toast.LENGTH_SHORT).show()
                     is Resource.Success -> {
                         binding.currentSeasonLoadingLayout.root.stopShimmer()
                         binding.currentSeasonLoadingLayout.root.visibility = View.GONE
@@ -84,7 +89,7 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
                     }
                     is Resource.Error ->
                         Toast.makeText(requireContext(),
-                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
+                            getString(R.string.resource_error_text), Toast.LENGTH_SHORT).show()
                 }
             }
         })
@@ -97,7 +102,10 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
         viewModel.todayAnimeSchedule.observe(viewLifecycleOwner, { anime ->
             if (anime != null) {
                 when (anime) {
-                    is Resource.Loading -> Log.d("DRG", getString(R.string.loading_text))
+                    is Resource.Loading -> Toast.makeText(
+                        requireContext(),
+                        getString(R.string.loading_text),
+                        Toast.LENGTH_SHORT).show()
                     is Resource.Success -> {
                         binding.todayEpisodeLoadingLayout .root.stopShimmer()
                         binding.todayEpisodeLoadingLayout.root.visibility = View.GONE
@@ -106,7 +114,7 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
                     }
                     is Resource.Error ->
                         Toast.makeText(requireContext(),
-                            getString(R.string.resource_error_text), Toast.LENGTH_LONG).show()
+                            getString(R.string.resource_error_text), Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -116,11 +124,15 @@ class HomeFragment : Fragment(), AnimeListAdapter.OnClick {
     override fun onItemClick(anime: Anime) {
         val bundle = Bundle()
         bundle.putParcelable(DetailFragment.ANIME_DATA, anime)
-        navController.navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+        navController!!.navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        navController = null
+        binding.currentSeasonRcView.adapter = null
+        binding.todayEpisodeRcView.adapter = null
+        binding.animeSuggestionRcView.adapter = null
         _binding = null
     }
 

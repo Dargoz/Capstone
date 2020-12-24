@@ -81,6 +81,8 @@ class DetailFragment : Fragment() {
             requireContext(), childFragmentManager,
             FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
         )
+
+        binding.contentViewPager.offscreenPageLimit = 4
         binding.contentViewPager.adapter = adapter
         binding.contentTabLayout.setupWithViewPager(binding.contentViewPager)
     }

@@ -49,7 +49,10 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
         viewModel.topManga.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
-                    Log.i("DRG", "${getString(R.string.loading_text)} ${javaClass.simpleName}")
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.loading_text),
+                        Toast.LENGTH_LONG).show()
                 }
                 is Resource.Success -> {
                     val mangaList = it.data
@@ -75,10 +78,10 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
         viewModel.topManhwa.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
-                    Log.i(
-                        "DRG",
-                        "${getString(R.string.loading_text)} ${javaClass.simpleName}"
-                    )
+                    Toast.makeText(
+                        requireContext(),
+                        getString(R.string.loading_text),
+                        Toast.LENGTH_LONG).show()
                 }
                 is Resource.Success -> {
                     val mangaList = it.data

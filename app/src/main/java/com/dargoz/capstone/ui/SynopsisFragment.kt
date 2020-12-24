@@ -12,9 +12,6 @@ import com.dargoz.domain.models.Anime
 
 class SynopsisFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SynopsisFragment()
-    }
 
     private var _binding: SynopsisFragmentBinding? = null
     private val binding get() = _binding!!

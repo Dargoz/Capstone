@@ -20,13 +20,11 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class ReviewsFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = ReviewsFragment()
-    }
 
     private var _binding : ReviewsFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ReviewsViewModel by viewModels()
+    private lateinit var adapter: ReviewListAdapter
 
 
     override fun onCreateView(
@@ -37,14 +35,22 @@ class ReviewsFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        adapter = ReviewListAdapter()
+        binding.animeReviewRcView.adapter = adapter
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val adapter = ReviewListAdapter()
-        binding.animeReviewRcView.adapter = adapter
+
         val anime: Anime = ActivityHelper.getAnimeResource(this)
         viewModel.animeReviews(anime.malId).observe(viewLifecycleOwner, { reviews ->
             when(reviews) {
-                is Resource.Loading -> Log.i("DRG","Loading Review data..")
+                is Resource.Loading -> Toast.makeText(
+                    requireContext(),
+                    getString(R.string.loading_text),
+                    Toast.LENGTH_SHORT).show()
                 is Resource.Success -> {
                     val reviewList = reviews.data
                     if(reviewList != null) {
@@ -61,6 +67,7 @@ class ReviewsFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        binding.animeReviewRcView.adapter = null
         super.onDestroyView()
         _binding = null
     }

@@ -24,6 +24,34 @@
             android:background="@drawable/rounded_rectangle_white" />
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/search_error_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/search_action_bar"
+        app:layout_constraintBottom_toTopOf="@id/search_lottie_animation"
+        android:padding="16dp"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:text="@string/error_search_text"
+        android:visibility="gone"
+        tools:visibility="visible"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/search_lottie_animation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/search_error_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:lottie_rawRes="@raw/notfound"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_rc_view"
         android:layout_width="match_parent"

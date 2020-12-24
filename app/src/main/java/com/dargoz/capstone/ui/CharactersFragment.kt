@@ -20,9 +20,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CharactersFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = CharactersFragment()
-    }
 
     private var _binding: CharactersFragmentBinding? = null
     private val binding get() = _binding!!
@@ -60,6 +57,7 @@ class CharactersFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.animeCharacterRcView.adapter = null
         _binding = null
     }
 

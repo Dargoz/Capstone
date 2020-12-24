@@ -20,9 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class InfoFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = InfoFragment()
-    }
+
     private var _binding : InfoFragmentBinding? = null
     private val binding get() = _binding!!
     private val viewModel: InfoViewModel by viewModels()

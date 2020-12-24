@@ -9,7 +9,7 @@ class FavoriteViewModelFactory @Inject constructor(private val favoriteUseCase: 
     ViewModelFactory<FavoriteViewModel> {
 
     override fun create(handle: SavedStateHandle): FavoriteViewModel {
-        return FavoriteViewModel(handle, favoriteUseCase)
+        return FavoriteViewModel(favoriteUseCase)
     }
 
 

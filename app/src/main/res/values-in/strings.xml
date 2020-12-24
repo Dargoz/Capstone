@@ -47,4 +47,5 @@
     <string name="icon_content_desc">icon</string>
     <string name="resource_error_text">error when getting data</string>
     <string name="loading_text">Loading…</string>
+    <string name="error_search_text">Terjadi kesalahan waktu mencari data, silahkan gunakan kata kunci lain</string>
 </resources>

@@ -40,6 +40,19 @@ class FavoriteFragment : Fragment(), AnimeListAdapter.OnClick {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        val adapter = AnimeListAdapter()
+        adapter.setOnItemClickListener(this)
+        binding.favoriteListRcView.adapter = adapter
+        viewModel.favoriteAnimeList.observe(viewLifecycleOwner, {
+            if(it.isEmpty()) {
+                binding.emptyFavoriteTextView.visibility = View.VISIBLE
+            } else {
+                binding.emptyFavoriteTextView.visibility = View.GONE
+                adapter.setAnimeList(it)
+                adapter.notifyDataSetChanged()
+            }
+
+        })
     }
 
     private fun inject() {
@@ -63,22 +76,7 @@ class FavoriteFragment : Fragment(), AnimeListAdapter.OnClick {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val adapter = AnimeListAdapter()
-        adapter.setOnItemClickListener(this)
-        binding.favoriteListRcView.adapter = adapter
-        viewModel.favoriteAnimeList.observe(viewLifecycleOwner, {
-            if(it.isEmpty()) {
-                binding.emptyFavoriteTextView.visibility = View.VISIBLE
-            } else {
-                binding.emptyFavoriteTextView.visibility = View.GONE
-                adapter.setAnimeList(it)
-                adapter.notifyDataSetChanged()
-            }
 
-        })
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
