@@ -4,10 +4,10 @@ import android.app.Application
 import com.dargoz.domain.usecases.FavoriteUseCase
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 
 @EntryPoint
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 interface FavoriteModuleDependencies {
 
     fun exposeApplication(): Application
