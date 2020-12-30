@@ -1,12 +1,11 @@
 package com.dargoz.capstone.ui
 
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.dargoz.capstone.R
 import com.dargoz.capstone.databinding.MangaFragmentBinding
@@ -49,10 +48,7 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
         viewModel.topManga.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.loading_text),
-                        Toast.LENGTH_LONG).show()
+                    //do nothing - already have shimmer forr screen loading
                 }
                 is Resource.Success -> {
                     val mangaList = it.data
@@ -78,10 +74,7 @@ class MangaFragment : Fragment(), MangaListAdapter.OnClick {
         viewModel.topManhwa.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
-                    Toast.makeText(
-                        requireContext(),
-                        getString(R.string.loading_text),
-                        Toast.LENGTH_LONG).show()
+                    //do nothing - already have shimmer forr screen loading
                 }
                 is Resource.Success -> {
                     val mangaList = it.data
